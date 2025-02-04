@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery - E2 Port Digital Portfolio</title>
+  <style>
+    /* Basic styling for the gallery page */
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 30px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    header {
+      text-align: center;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #d9d9d9;
+    }
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      color: #2a7f8c;
+    }
+    header p {
+      font-size: 1.1rem;
+      color: #666;
+    }
+    /* Gallery grid styling */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      grid-gap: 15px;
+      margin-top: 20px;
+    }
+    .gallery-grid a {
+      display: block;
+      border: 1px solid #d9d9d9;
+      border-radius: 5px;
+      overflow: hidden;
+      background: #f9f9f9;
+      text-decoration: none;
+      color: #444;
+    }
+    .gallery-grid img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .gallery-grid .caption {
+      padding: 10px;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Gallery</h1>
+      <p>Click on any thumbnail to view the full image or PDF in a new tab.</p>
+    </header>
+    
+    <div class="gallery-grid">
+      <!-- Example thumbnail linking to a full image -->
+      <a href="fullsize-image1.jpg" target="_blank">
+         <img src="thumbnail-image1.jpg" alt="Project 1">
+         <div class="caption">Project 1</div>
+      </a>
+      <!-- Example thumbnail linking to a PDF -->
+      <a href="project-document.pdf" target="_blank">
+         <img src="thumbnail-pdf.jpg" alt="Project Document">
+         <div class="caption">Project Document</div>
+      </a>
+      <!-- Add more gallery items following the same structure -->
+    </div>
+  </div>
+</body>
+</html>
