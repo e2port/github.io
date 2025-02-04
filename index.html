@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Digital Portfolio</title>
-  <!-- Internal CSS for a clean, professional look -->
+  <!-- Internal CSS with Soft Grays and Turquoise Accents -->
   <style>
-    /* Reset some default styles */
+    /* Reset default margins/padding */
     body, h1, h2, p, ul {
       margin: 0;
       padding: 0;
@@ -14,8 +14,8 @@
     body {
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       line-height: 1.6;
-      background-color: #f7f7f7;
-      color: #333;
+      background-color: #f2f2f2; /* Very soft light gray */
+      color: #444; /* Darker gray for text */
       padding: 20px;
     }
     .container {
@@ -23,16 +23,17 @@
       margin: 0 auto;
       background: #fff;
       padding: 30px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
     header {
       text-align: center;
       padding-bottom: 20px;
-      border-bottom: 2px solid #eaeaea;
+      border-bottom: 2px solid #d9d9d9; /* Lighter gray */
     }
     header h1 {
       font-size: 2.5rem;
       margin-bottom: 10px;
+      color: #2a7f8c; /* Turquoise accent */
     }
     header p {
       font-size: 1.1rem;
@@ -44,9 +45,12 @@
     }
     nav a {
       text-decoration: none;
-      color: #0073e6;
+      color: #2a7f8c; /* Turquoise accent for links */
       margin: 0 15px;
       font-size: 1rem;
+    }
+    nav a:hover {
+      color: #20606e; /* A slightly darker turquoise on hover */
     }
     .section {
       margin: 40px 0;
@@ -54,17 +58,26 @@
     .section h2 {
       font-size: 2rem;
       margin-bottom: 10px;
-      border-bottom: 1px solid #eaeaea;
+      border-bottom: 1px solid #d9d9d9;
       padding-bottom: 10px;
+      color: #2a7f8c; /* Turquoise accent */
     }
     .section p {
       font-size: 1.1rem;
+    }
+    /* Image styling (optional) */
+    .portfolio-image {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 20px auto;
+      border: 3px solid #d9d9d9;
     }
     footer {
       text-align: center;
       font-size: 0.9rem;
       color: #777;
-      border-top: 1px solid #eaeaea;
+      border-top: 1px solid #d9d9d9;
       padding-top: 20px;
       margin-top: 20px;
     }
@@ -106,7 +119,26 @@
       </p>
     </section>
     
-    <!-- Work Section -->
+    <!-- Tech Expertise -->
+    <section id="work" class="section">
+      <h2>Tech Expertise</h2>
+      <p>
+          1. Data Science / Machine Learning
+                Certified Data Scientist with expertise in machine learning algorithms and predictive analytics to drive business decisions and enhance metric accuracy.
+
+          2. Digital Media / Asset Creation and Tweaking
+                Video Editing: Proficient in creating engaging HQ video content using Microsoft Clipchamp
+                Creative & Multimedia Graphics: Capable of creating basic graphics, vector images, animations, 3D models, and professional use of Generative AI Applications.
+                Prompt engineering
+
+          3. Consulting -  Cloud Architecture & Computing / Cybersecurity Awareness
+                My proficiency extends to computer hardware, software, and cloud architecture, particularly with Microsoft Azure. I am familiar with environments similar to AWS and Google Cloud Services, ensuring scalable and robust solutions for modern IT needs.
+                Well-versed in identifying tech market trends, cybersecurity risks, and tactics for spotting scams, spam, phishing attempts, and other online threats.
+
+      </p>
+    </section>
+
+     <!-- Work Section -->
     <section id="work" class="section">
       <h2>Sample Works</h2>
       <p>
@@ -118,12 +150,12 @@
     <section id="contact" class="section">
       <h2>Contact</h2>
       <p>
-        Feel free to reach out via email at <a href="mailto:your.email@example.com">your.email@example.com</a> or connect on LinkedIn.
+        Feel free to reach out via email at <a href="mailto:e2port18@gmail.com">e2port18@gmail.com</a>.
       </p>
     </section>
     
     <footer>
-      &copy; 2025 Your Name. All rights reserved.
+      &copy; 2025 E2 Port. All rights reserved.
     </footer>
   </div>
 </body>
