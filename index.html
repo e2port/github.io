@@ -7,7 +7,7 @@
   <!-- Internal CSS with Soft Grays and Turquoise Accents -->
   <style>
     /* Reset default margins/padding */
-    body, h1, h2, p, ul {
+    body, h1, h2, p, ul, li {
       margin: 0;
       padding: 0;
     }
@@ -52,8 +52,25 @@
     nav a:hover {
       color: #20606e; /* A slightly darker turquoise on hover */
     }
+    /* Section Styles with Intriguing Bordering Designs */
     .section {
       margin: 40px 0;
+      padding: 20px;
+      border: 2px solid #d9d9d9;
+      border-radius: 8px;
+      background: #fff;
+      position: relative;
+    }
+    .section::before {
+      content: "";
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      right: -8px;
+      bottom: -8px;
+      border: 1px dashed #2a7f8c;
+      border-radius: 12px;
+      pointer-events: none;
     }
     .section h2 {
       font-size: 2rem;
@@ -64,6 +81,19 @@
     }
     .section p {
       font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+    /* List styling for Tech Expertise and Additional Services */
+    .section ul {
+      list-style: none;
+      padding: 0;
+    }
+    .section ul li {
+      margin-bottom: 15px;
+      padding: 10px;
+      border: 1px solid #d9d9d9;
+      border-radius: 5px;
+      background: #f9f9f9;
     }
     /* Image styling (optional) */
     .portfolio-image {
@@ -100,10 +130,12 @@
       <p>Data Scientist & Versatile Tech Consultant</p>
     </header>
     
-    <!-- Navigation (optional, if you want additional pages later) -->
+    <!-- Navigation -->
     <nav>
       <a href="#about">About</a>
-      <a href="#work">Work</a>
+      <a href="#expertise">Tech Expertise</a>
+      <a href="#services">Additional Services</a>
+      <a href="#work">Sample Works</a>
       <a href="#contact">Contact</a>
     </nav>
     
@@ -111,35 +143,57 @@
     <section id="about" class="section">
       <h2>About Me</h2>
       <p>
-        Machine Learning Algorithm (creation and tuning)  | Versatile Tech Enthusiast |  Multimedia Creator / Consultant | Bridging Cultures
-        
-        Hello! I’m a dedicated and adaptable professional with a diverse skill set spanning technology, data science, and multimedia. 
-        Originally from the U.S. and now based in the middle east, I bring a unique blend of technical expertise, analytical thinking, and creative problem-solving to every project. 
+        Machine Learning Algorithm (creation and tuning)  | Versatile Tech Enthusiast | Multimedia Creator / Consultant | Bridging Cultures
+      </p>
+      <p>
+        Hello! I’m a dedicated and adaptable professional with a diverse skill set spanning technology, data science, and multimedia.
+        Originally from the U.S. and now based in the Middle East, I bring a unique blend of technical expertise, analytical thinking, and creative problem-solving to every project.
         Whether you're looking for data-driven insights, software guidance, or high-quality digital content, I’m here to help.
       </p>
-      
     </section>
     
-    <!-- Tech Expertise -->
-    <section id="work" class="section">
+    <!-- Tech Expertise Section -->
+    <section id="expertise" class="section">
       <h2>Tech Expertise</h2>
-      <p>
-          1. Data Science / Machine Learning
-                Certified Data Scientist with expertise in machine learning algorithms and predictive analytics to drive business decisions and enhance metric accuracy.
-
-          2. Digital Media / Asset Creation and Tweaking
-                Video Editing: Proficient in creating engaging HQ video content using Microsoft Clipchamp
-                Creative & Multimedia Graphics: Capable of creating basic graphics, vector images, animations, 3D models, and professional use of Generative AI Applications.
-                Prompt engineering
-
-          3. Consulting -  Cloud Architecture & Computing / Cybersecurity Awareness
-                My proficiency extends to computer hardware, software, and cloud architecture, particularly with Microsoft Azure. I am familiar with environments similar to AWS and Google Cloud Services, ensuring scalable and robust solutions for modern IT needs.
-                Well-versed in identifying tech market trends, cybersecurity risks, and tactics for spotting scams, spam, phishing attempts, and other online threats.
-
-      </p>
+      <ul>
+        <li>
+          <strong>Data Science / Machine Learning</strong><br>
+          Certified Data Scientist with expertise in machine learning algorithms and predictive analytics to drive business decisions and enhance metric accuracy.
+        </li>
+        <li>
+          <strong>Digital Media / Asset Creation and Tweaking</strong><br>
+          Video Editing: Proficient in creating engaging HQ video content using Microsoft Clipchamp.<br>
+          Creative & Multimedia Graphics: Capable of creating basic graphics, vector images, animations, 3D models, and professional use of Generative AI Applications.<br>
+          Prompt engineering.
+        </li>
+        <li>
+          <strong>Consulting - Cloud Architecture & Computing / Cybersecurity Awareness</strong><br>
+          Proficient in computer hardware, software, and cloud architecture, particularly with Microsoft Azure. Familiar with AWS and Google Cloud Services, ensuring scalable and robust IT solutions.<br>
+          Adept at identifying tech market trends, cybersecurity risks, and tactics for spotting scams, spam, phishing attempts, and other online threats.
+        </li>
+      </ul>
     </section>
-
-     <!-- Work Section -->
+    
+    <!-- Additional Services Section -->
+    <section id="services" class="section">
+      <h2>Additional Services</h2>
+      <ul>
+        <li>
+          <strong>UI/UX Design Consultation:</strong> Expert advice on creating intuitive and visually appealing interfaces.
+        </li>
+        <li>
+          <strong>Website Optimization & Maintenance:</strong> Ensuring your site is fast, secure, and up-to-date.
+        </li>
+        <li>
+          <strong>Digital Strategy Consulting:</strong> Guidance for navigating the digital landscape to drive growth.
+        </li>
+        <li>
+          <strong>Custom Software Development:</strong> Developing bespoke solutions tailored to your business needs.
+        </li>
+      </ul>
+    </section>
+    
+    <!-- Sample Works Section -->
     <section id="work" class="section">
       <h2>Sample Works</h2>
       <p>
