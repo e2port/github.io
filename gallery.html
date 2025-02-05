@@ -5,22 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gallery - E2 Port Digital Portfolio</title>
   <style>
-    /* Basic styling for the gallery page */
+    /* Reset default margins/padding */
+    body, h1, h2, p, ul, li, a {
+      margin: 0;
+      padding: 0;
+    }
     body {
       font-family: "Franklin Gothic Medium", Arial, sans-serif;
       background-color: #2b3e50;
-      margin: 0;
-      padding: 20px;
       color: #444;
       line-height: 1.6;
+      padding: 20px;
     }
+    /* Container with fade-in effect */
     .container {
       max-width: 900px;
       margin: 0 auto;
       background: #f4f9fc; /* Dull pale blue background */
       padding: 30px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 0.8s ease-out;
     }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.98); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    /* Header styling */
     header {
       text-align: center;
       padding-bottom: 20px;
@@ -30,10 +40,28 @@
       font-size: 2.5rem;
       margin-bottom: 10px;
       color: #2a7f8c;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     }
     header p {
       font-size: 1.1rem;
       color: #666;
+    }
+    /* Navigation with popout and twirl effect */
+    nav {
+      text-align: center;
+      margin: 20px 0;
+    }
+    nav a {
+      text-decoration: none;
+      color: #2a7f8c;
+      margin: 0 15px;
+      font-size: 1rem;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.3s ease;
+      display: inline-block;
+    }
+    nav a:hover {
+      transform: scale(1.2) rotate(5deg);
+      color: #20606e;
     }
     /* Gallery grid styling */
     .gallery-grid {
@@ -48,7 +76,7 @@
       border: 1px solid #d9d9d9;
       border-radius: 5px;
       overflow: hidden;
-      background: #f4f9fc; /* Match container background */
+      background: #f4f9fc;
       text-decoration: none;
       color: #444;
       transition: transform 0.3s ease, filter 0.3s ease, border-color 0.3s ease;
@@ -69,15 +97,46 @@
       font-size: 0.9rem;
       text-align: center;
     }
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2rem;
+      }
+      nav a {
+        display: block;
+        margin: 10px 0;
+      }
+      .gallery-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container">
+    <!-- Site Header (matches index.html) -->
+    <header>
+      <h1>E2 Port - Digital Portfolio</h1>
+      <p>Data Scientist & Versatile Tech Consultant</p>
+    </header>
+    <!-- Navigation (matches index.html) -->
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="#about">About</a>
+      <a href="#expertise">Tech Expertise</a>
+      <a href="#services">Additional Services</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="pdfs.html">PDFs</a>
+      <a href="apps.html">Apps</a>
+      <a href="updates.html">Updates</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <!-- Gallery Header -->
     <header>
       <h1>Gallery</h1>
       <p>Click on any thumbnail to view the full image in a new tab.</p>
     </header>
-    
+    <!-- Gallery Grid -->
     <div class="gallery-grid">
       <!-- Example thumbnail linking to a full image -->
       <a href="images/don2.png" target="_blank">
@@ -91,7 +150,7 @@
       </a>
       <!-- Example thumbnail linking to a third full image -->
       <a href="images/anotherImage.png" target="_blank">
-         <img src="anotherImage.png" alt="Project 3">
+         <img src="images/anotherImage.png" alt="Project 3">
          <div class="caption">Project 3</div>
       </a>
       <!-- Add more gallery items following the same structure -->
@@ -99,4 +158,3 @@
   </div>
 </body>
 </html>
-
