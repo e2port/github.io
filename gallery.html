@@ -42,6 +42,43 @@
       color: #2a7f8c;
       text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     }
+    /* Hebrew text animation effects */
+    .hebrew-text {
+      font-size: 1.8rem;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 5px;
+      background: linear-gradient(45deg, #ff6b6b, #f06595, #cc5de8, #845ef7, #5c7cfa);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientAnimation 3s ease infinite, pulseAnimation 1.5s ease-in-out infinite;
+    }
+    @keyframes gradientAnimation {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+    @keyframes pulseAnimation {
+      0% {
+        transform: scale(1);
+        text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+      }
+      50% {
+        transform: scale(1.1);
+        text-shadow: 0 0 20px rgba(240, 101, 149, 0.7);
+      }
+      100% {
+        transform: scale(1);
+        text-shadow: 0 0 10px rgba(204, 94, 232, 0.5);
+      }
+    }
     header p {
       font-size: 1.1rem;
       color: #666;
@@ -114,9 +151,9 @@
 </head>
 <body>
   <div class="container">
-    <!-- Site Header (matches index.html) -->
-   <header>
-      <p dir="rtl" style="font-size: 1.2rem; color: #2a7f8c; margin-bottom: 5px;">בס"ד</p>
+     <header>
+      <!-- Hebrew text with super duper badass effects -->
+      <p dir="rtl" class="hebrew-text">בס"ד</p>
       <h1>E2 Port - Digital Portfolio</h1>
       <p>Data Scientist & Versatile Tech Consultant</p>
     </header>
