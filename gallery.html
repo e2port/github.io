@@ -7,15 +7,17 @@
   <style>
     /* Basic styling for the gallery page */
     body {
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      background-color: #f2f2f2;
+      font-family: "Franklin Gothic Medium", Arial, sans-serif;
+      background-color: #2b3e50;
       margin: 0;
       padding: 20px;
+      color: #444;
+      line-height: 1.6;
     }
     .container {
       max-width: 900px;
       margin: 0 auto;
-      background: #fff;
+      background: #f4f9fc; /* Dull pale blue background */
       padding: 30px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
@@ -45,9 +47,13 @@
       border: 1px solid #d9d9d9;
       border-radius: 5px;
       overflow: hidden;
-      background: #f9f9f9;
+      background: #f4f9fc; /* Match container background */
       text-decoration: none;
       color: #444;
+      transition: transform 0.3s ease;
+    }
+    .gallery-grid a:hover {
+      transform: scale(1.03);
     }
     .gallery-grid img {
       width: 100%;
@@ -79,7 +85,7 @@
          <img src="thumbnail-pdf.jpg" alt="Project Document">
          <div class="caption">Project Document</div>
       </a>
-        <!-- Example thumbnail linking to a full image -->
+      <!-- Example thumbnail linking to a full image -->
       <a href="images/d2a1.png" target="_blank">
          <img src="thumbnail-d2a1.png" alt="Project 1">
          <div class="caption">Project 1</div>
