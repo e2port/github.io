@@ -45,7 +45,11 @@
       color: #2a7f8c;
       text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     }
-        /* Hebrew text animation effects */
+    header p {
+      font-size: 1.1rem;
+      color: #666;
+    }
+    /* Hebrew text animation effects */
     .hebrew-text {
       font-size: 1.8rem;
       font-weight: bold;
@@ -58,15 +62,9 @@
       animation: gradientAnimation 3s ease infinite, pulseAnimation 1.5s ease-in-out infinite;
     }
     @keyframes gradientAnimation {
-      0% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-      100% {
-        background-position: 0% 50%;
-      }
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
     @keyframes pulseAnimation {
       0% {
@@ -81,10 +79,6 @@
         transform: scale(1);
         text-shadow: 0 0 10px rgba(204, 94, 232, 0.5);
       }
-    }
-    header p {
-      font-size: 1.1rem;
-      color: #666;
     }
     /* Navigation with popout and twirl effect */
     nav {
@@ -109,12 +103,11 @@
       padding: 20px;
       border: 2px solid #d9d9d9;
       border-radius: 8px;
-      background: #f4f9fc; /* Dull pale blue background */
+      background: #f4f9fc;
       position: relative;
       opacity: 0;
       animation: fadeInUp 0.8s ease-out forwards;
     }
-    /* Stagger the animations for multiple sections */
     .section:nth-of-type(1) { animation-delay: 0.2s; }
     .section:nth-of-type(2) { animation-delay: 0.4s; }
     .section:nth-of-type(3) { animation-delay: 0.6s; }
@@ -178,30 +171,24 @@
     }
     /* Responsive adjustments */
     @media (max-width: 600px) {
-      header h1 {
-        font-size: 2rem;
-      }
-      nav a {
-        display: block;
-        margin: 10px 0;
-      }
+      header h1 { font-size: 2rem; }
+      nav a { display: block; margin: 10px 0; }
     }
   </style>
 </head>
 <body>
-   <div class="container">
+  <div class="container">
+    <!-- Header -->
     <header>
       <!-- Hebrew text with super duper badass effects -->
       <p dir="rtl" class="hebrew-text">בס"ד</p>
       <h1>E2 Port - Digital Portfolio</h1>
       <p>Data Scientist & Versatile Tech Consultant</p>
     </header>
-    <!-- Other content, navigation, and footer here -->
-  </div>
     
-    <!-- Navigation -->
+    <!-- Navigation (same styling as gallery page, with Home instead of About) -->
     <nav>
-      <a href="#about">About</a>
+      <a href="index.html">Home</a>
       <a href="gallery.html">Gallery</a>
       <a href="pdfs.html">PDFs</a>
       <a href="apps.html">Apps</a>
@@ -227,6 +214,8 @@
         </li>
       </ul>
     </section>
+    
+    <!-- Contact Section -->
     <section id="contact" class="section">
       <h2>Contact</h2>
       <p>
@@ -235,6 +224,8 @@
       </p>
       <img src="images/footballcat.png" alt="Cat Football" class="portfolio-image" />
     </section>
+    
+    <!-- Footer -->
     <footer>
       &copy; 2025 E2 Port. All rights reserved. | Contact: 
       <a href="mailto:e2port18@gmail.com">e2port18@gmail.com</a>
