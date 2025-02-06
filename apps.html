@@ -122,6 +122,18 @@
       border-radius: 5px;
       object-fit: cover;
       margin-right: 20px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #000;
+      cursor: pointer;
+    }
+    .app-thumbnail p {
+      color: #00ccff;
+      font-size: 0.9rem;
+      text-align: center;
+      margin: 0;
     }
     .app-description {
       flex-grow: 1;
@@ -201,20 +213,27 @@
     
     <!-- Apps Grid -->
     <div class="apps-grid">
-      <!-- Sample App Row -->
+      <!-- Matrix Animation App Preview Row (Replaces the Dooby App) -->
       <div class="app-row">
-        <img src="images/dooby.png" alt="Dooby App Thumbnail" class="app-thumbnail">
+        <div class="app-thumbnail" id="matrix-preview">
+          <p>Click to Open<br>Matrix Animation</p>
+        </div>
         <div class="app-description">
-          <h2>Dooby App</h2>
-          <p>This sample app showcases a dynamic gameplay and innovative interface. Explore features, play the game, and see how creativity meets technology.</p>
+          <h2>Blue Hebrew Matrix Rain</h2>
+          <p>
+            Experience a unique twist on the classic Matrix effect. This interactive app displays a mesmerizing cascade of bold Hebrew letters glowing in a cool bluish hue. Click the preview window to open the full-screen animation in a new tab and immerse yourself in the digital rain.
+          </p>
         </div>
       </div>
-      <!-- You can add additional app rows following the same structure -->
+      
+      <!-- Another App Row (Unchanged) -->
       <div class="app-row">
         <img src="images/dooby.png" alt="Dooby App Thumbnail" class="app-thumbnail">
         <div class="app-description">
           <h2>Another App</h2>
-          <p>This is another example of an app or game description. Customize this section with details about the app's functionality, features, and unique design.</p>
+          <p>
+            This is another example of an app or game description. Customize this section with details about the app's functionality, features, and unique design.
+          </p>
         </div>
       </div>
     </div>
@@ -235,5 +254,12 @@
       <a href="mailto:e2port18@gmail.com">e2port18@gmail.com</a>
     </footer>
   </div>
+  
+  <!-- JavaScript for Matrix Preview Click Handler -->
+  <script>
+    document.getElementById('matrix-preview').addEventListener('click', function() {
+      window.open('matrix.html', '_blank');
+    });
+  </script>
 </body>
 </html>
