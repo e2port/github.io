@@ -61,6 +61,13 @@
       font-size: 1.1rem;
       color: #666;
     }
+    .portfolio-image {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 10px auto;
+    }
+
     /* Hebrew text animation effects */
     .hebrew-text {
       font-size: 1.8rem;
@@ -197,7 +204,14 @@
         margin-right: 0;
         margin-bottom: 10px;
       }
-    }
+      @media (max-width: 600px) {
+      .portfolio-image {
+        width: 80%; /* Adjust size for better fit */
+          }
+        }
+
+      }
+
   </style>
 </head>
 <body>
