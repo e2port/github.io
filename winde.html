@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Wind-Driven Georgian Neon Letters</title>
+  <style>
+    /* Set a full-screen canvas with an aqua blue background */
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: aqua;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="winde"></canvas>
+  <script>
+    // Get the canvas and its 2D drawing context
+    const canvas = document.getElementById('winde');
+    const ctx = canvas.getContext('2d');
+
+    // Make the canvas fill the full browser window
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Georgian alphabet (Mkhedruli) letters
+    const georgianLetters = "აბგდევზთიკლმნოპჟრსტუფქღყშჩცძწჭხჯჰ";
+
+    const fontSize = 24; // Size of each letter
+    // Calculate a number of letters based on canvas width (density adjustment)
+    let letterCount = Math.floor(canvas.width / 15);
+    const letters = [];
+
+    // Initialize an array of letter objects.
+    // Each object represents a letter moving from right to left with vertical sine oscillation.
+    for (let i = 0; i < letterCount; i++) {
+      letters.push({
+        // Start at a random position off the right edge
+        x: canvas.width + Math.random() * 100,
+        // Random base vertical position anywhere along the height
+        baseY: Math.random() * canvas.height,
+        // Horizontal speed: between 2 and 6 pixels per frame
+        speed: 2 + Math.random() * 4,
+        // Amplitude of vertical sine variation (in pixels)
+        amplitude: 5 + Math.random() * 15,
+        // Initial phase for the sine wave
+        phase: Math.random() * 2 * Math.PI,
+        // Frequency (speed of vertical oscillation)
+        frequency: 0.02 + Math.random() * 0.08,
+        // Pick a random Georgian letter
+        letter: georgianLetters.charAt(Math.floor(Math.random() * georgianLetters.length))
+      });
+    }
+
+    // Draw function: clears the canvas and redraws every letter at its new position
+    function draw() {
+      // Clear the canvas using the aqua blue background
+      ctx.fillStyle = "aqua";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Set text styling: neon yellow with a glowing effect
+      ctx.fillStyle = "#FFFF00"; // Neon yellow color
+      ctx.shadowColor = "#FFFF00";
+      ctx.shadowBlur = 10;
+      ctx.font = "bold " + fontSize + "px monospace";
+
+      // Update and draw each letter
+      for (let i = 0; i < letters.length; i++) {
+        const letterObj = letters[i];
+        // Move the letter left by its horizontal speed
+        letterObj.x -= letterObj.speed;
+        // Update the phase for vertical movement
+        letterObj.phase += letterObj.frequency;
+        // Compute the current vertical position with a sine wave variation
+        const y = letterObj.baseY + letterObj.amplitude * Math.sin(letterObj.phase);
+
+        // Draw the letter on the canvas
+        ctx.fillText(letterObj.letter, letterObj.x, y);
+
+        // If the letter has moved off the left edge, reset it to the right
+        if (letterObj.x < -fontSize) {
+          letterObj.x = canvas.width + Math.random() * 50;
+          letterObj.baseY = Math.random() * canvas.height;
+          letterObj.speed = 2 + Math.random() * 4;
+          letterObj.amplitude = 5 + Math.random() * 15;
+          letterObj.phase = Math.random() * 2 * Math.PI;
+          letterObj.frequency = 0.02 + Math.random() * 0.08;
+          letterObj.letter = georgianLetters.charAt(Math.floor(Math.random() * georgianLetters.length));
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+
+    // Adjust the canvas size when the window is resized
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      // (Optional) Recalculate letterCount and reinitialize letters if desired
+    });
+  </script>
+</body>
+</html>
