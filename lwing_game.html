@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LWing - The Winged Lion Game</title>
+  <style>
+    /* Basic reset and background */
+    body {
+      margin: 0;
+      padding: 0;
+      background: #1a1a1a;
+      font-family: Arial, sans-serif;
+      color: #fff;
+    }
+    /* Game container with a titled frame and top bar for timer & score */
+    .game-container {
+      width: 400px;
+      margin: 30px auto;
+      border: 4px solid #FFD700;
+      border-radius: 10px;
+      background: #333;
+      position: relative;
+      overflow: hidden;
+    }
+    .top-bar {
+      background: #444;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 3px solid #FFD700;
+    }
+    .top-bar h2 {
+      margin: 0;
+      font-size: 18px;
+      color: #FFD700;
+    }
+    .score-timer {
+      font-size: 16px;
+      border: 2px solid #FFD700;
+      padding: 5px 10px;
+      border-radius: 5px;
+      background: #222;
+    }
+    /* Canvas styling */
+    canvas {
+      display: block;
+      background: #87CEEB; /* Light sky blue background */
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <!-- Top Bar with Title, Timer and Score -->
+    <div class="top-bar">
+      <h2>LWing - The Winged Lion Game</h2>
+      <div class="score-timer">
+        <span id="timer">0:00:00</span> | <span id="score">00000</span>
+      </div>
+    </div>
+    <!-- Game Canvas -->
+    <canvas id="gameCanvas" width="400" height="600"></canvas>
+  </div>
+
+  <script>
+    /*** SETUP & GAME VARIABLES ***/
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const canvasWidth = canvas.width;
+    const canvasHeight = canvas.height;
+    
+    let gameOver = false;
+    const gravity = 0.5;
+    const jumpStrength = -8;
+    let obstacles = [];
+    const obstacleInterval = 1500; // in ms
+    let lastObstacleTime = 0;
+    
+    // Timer & Score variables
+    const startTime = Date.now();
+    let score = 0;
+    
+    // LWing (the winged lion) object
+    const lion = {
+      x: 80,
+      y: canvasHeight / 2,
+      width: 40,
+      height: 40,
+      velocity: 0,
+      draw: function() {
+        // Draw a simple winged lion:
+        // Lion's body (a golden rectangle)
+        ctx.fillStyle = "#FFD700";
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+        // Left wing (an orange triangle)
+        ctx.fillStyle = "#FFA500";
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y + 10);
+        ctx.lineTo(this.x - 20, this.y);
+        ctx.lineTo(this.x, this.y - 10);
+        ctx.fill();
+        // Right wing
+        ctx.beginPath();
+        ctx.moveTo(this.x + this.width, this.y + 10);
+        ctx.lineTo(this.x + this.width + 20, this.y);
+        ctx.lineTo(this.x + this.width, this.y - 10);
+        ctx.fill();
+      },
+      update: function() {
+        this.velocity += gravity;
+        this.y += this.velocity;
+        // Prevent lion from leaving the screen
+        if (this.y < 0) {
+          this.y = 0;
+          this.velocity = 0;
+        }
+        if (this.y + this.height > canvasHeight) {
+          this.y = canvasHeight - this.height;
+          this.velocity = 0;
+          gameOver = true;
+        }
+      },
+      flap: function() {
+        this.velocity = jumpStrength;
+      }
+    };
+    
+    // Obstacle constructor (sports equipment)
+    function Obstacle(x, y, width, height, type) {
+      this.x = x;
+      this.y = y;
+      this.width = width;
+      this.height = height;
+      this.type = type; // 0: soccer ball, 1: basketball, 2: tennis racket
+    }
+    
+    Obstacle.prototype.draw = function() {
+      if (this.type === 0) {
+        // Soccer ball: draw as a white circle
+        ctx.fillStyle = "#ffffff";
+        ctx.beginPath();
+        ctx.arc(this.x + this.width/2, this.y + this.height/2, this.width/2, 0, Math.PI * 2);
+        ctx.fill();
+      } else if (this.type === 1) {
+        // Basketball: orange circle
+        ctx.fillStyle = "#FF4500";
+        ctx.beginPath();
+        ctx.arc(this.x + this.width/2, this.y + this.height/2, this.width/2, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        // Tennis racket: simple rectangle (green)
+        ctx.fillStyle = "#00FF00";
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+      }
+    };
+    
+    Obstacle.prototype.update = function() {
+      // Move obstacles to the left
+      this.x -= 3;
+    };
+    
+    /*** CONTROLS ***/
+    document.addEventListener('keydown', function(e) {
+      if (e.key === "ArrowUp") {
+        lion.flap();
+      }
+    });
+    
+    document.addEventListener('click', function() {
+      lion.flap();
+    });
+    
+    /*** GAME LOOP ***/
+    function gameLoop(timestamp) {
+      if (gameOver) {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+        ctx.fillStyle = "#FFD700";
+        ctx.font = "30px Arial";
+        ctx.fillText("Game Over!", canvasWidth / 2 - 70, canvasHeight / 2);
+        return;
+      }
+      
+      // Clear canvas (the background is light sky blue as defined in CSS)
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+      
+      // Update and draw LWing
+      lion.update();
+      lion.draw();
+      
+      // Create new obstacles at intervals
+      if (Date.now() - lastObstacleTime > obstacleInterval) {
+        const obsHeight = 30 + Math.random() * 30;
+        const obsWidth = obsHeight;  // square obstacles for circles
+        const obsY = Math.random() * (canvasHeight - obsHeight);
+        const type = Math.floor(Math.random() * 3);  // randomly select a type
+        obstacles.push(new Obstacle(canvasWidth, obsY, obsWidth, obsHeight, type));
+        lastObstacleTime = Date.now();
+      }
+      
+      // Update and draw obstacles
+      for (let i = obstacles.length - 1; i >= 0; i--) {
+        const obs = obstacles[i];
+        obs.update();
+        obs.draw();
+        // Collision detection
+        if (lion.x < obs.x + obs.width &&
+            lion.x + lion.width > obs.x &&
+            lion.y < obs.y + obs.height &&
+            lion.y + lion.height > obs.y) {
+          gameOver = true;
+        }
+        // Remove obstacles that are off-screen
+        if (obs.x + obs.width < 0) {
+          obstacles.splice(i, 1);
+        }
+      }
+      
+      // Update Timer and Score Display
+      const elapsed = (Date.now() - startTime) / 1000; // seconds
+      const minutes = Math.floor(elapsed / 60);
+      const seconds = Math.floor(elapsed % 60);
+      const centiseconds = Math.floor((elapsed - Math.floor(elapsed)) * 100);
+      document.getElementById('timer').textContent =
+        minutes + ":" + (seconds < 10 ? "0" + seconds : seconds) + ":" + (centiseconds < 10 ? "0" + centiseconds : centiseconds);
+      
+      // Score: Base 2 points per second, then doubling multiplier each full minute.
+      const multiplier = Math.pow(2, minutes);
+      score = Math.floor(elapsed * 2 * multiplier);
+      let scoreStr = score.toString();
+      while(scoreStr.length < 5) {
+        scoreStr = "0" + scoreStr;
+      }
+      document.getElementById('score').textContent = scoreStr;
+      
+      requestAnimationFrame(gameLoop);
+    }
+    
+    requestAnimationFrame(gameLoop);
+  </script>
+</body>
+</html>
