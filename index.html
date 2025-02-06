@@ -188,6 +188,32 @@
       padding-top: 20px;
       margin-top: 20px;
     }
+    /* --- Custom Styles for Smaller About and Update Sections --- */
+    #about {
+      font-size: 0.9rem; /* Smaller font for About Me section */
+    }
+    #about h2 {
+      font-size: 1.8rem; /* Slightly smaller heading */
+    }
+    /* New Site Update Section with even smaller font */
+    #update {
+      font-size: 0.8rem;
+      margin: 20px 0;
+      padding: 15px;
+      border: 1px solid #d9d9d9;
+      border-radius: 8px;
+      background: #f9f9f9;
+    }
+    #update h2 {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+      color: #2a7f8c;
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    #update p {
+      margin: 0;
+    }
     /* Responsive adjustments */
     @media (max-width: 600px) {
       header h1 {
@@ -221,8 +247,14 @@
       <a href="apps.html">Apps</a>
       <a href="#contact">Contact</a>
     </nav>
-    
-    <!-- About Section -->
+    <!-- New Site Update Section (even smaller font) -->
+    <section id="update">
+      <h2>Recent Update</h2>
+      <p>
+        [Feb 6, 2025 : Added background effects for each page and uploaded small game on pdfs page. ]
+      </p>
+    </section>
+    <!-- About Me Section (with smaller font) -->
     <section id="about" class="section">
       <h2>About Me</h2>
       <p>
@@ -234,6 +266,7 @@
         Whether you're looking for data-driven insights, software guidance, or high-quality digital content, I’m here to help.
       </p>
     </section>
+  
     
     <!-- Tech Expertise Section -->
     <section id="expertise" class="section">
@@ -275,98 +308,99 @@
       </p>
       <img src="images/don2.png" alt="Blender Donut" class="portfolio-image" />
     </section>
+    
     <!-- Contact Section -->
-<section id="contact" class="section">
-  <h2>Contact</h2>
-  <p>
-    Feel free to reach out via email at <a href="mailto:e2port18@gmail.com">e2port18@gmail.com</a>.<br><br>
-    All the best!
-  </p>
-  <img src="images/footballcat.png" alt="Cat Football" class="portfolio-image" />
-</section>
+    <section id="contact" class="section">
+      <h2>Contact</h2>
+      <p>
+        Feel free to reach out via email at <a href="mailto:e2port18@gmail.com">e2port18@gmail.com</a>.<br><br>
+        All the best!
+      </p>
+      <img src="images/footballcat.png" alt="Cat Football" class="portfolio-image" />
+    </section>
+    
+    <footer>
+      &copy; 2025 E2 Port. All rights reserved. | Contact: 
+      <a href="mailto:e2port18@gmail.com">e2port18@gmail.com</a>
+    </footer>
+  </div>
+  
+  <!-- JavaScript for Neon Gold Hebrew Letters Flying Right Background Animation -->
+  <script>
+    // Get the canvas and its 2D context
+    const canvas = document.getElementById('hwind-bg');
+    const ctx = canvas.getContext('2d');
 
-<footer>
-  &copy; 2025 E2 Port. All rights reserved. | Contact: 
-  <a href="mailto:e2port18@gmail.com">e2port18@gmail.com</a>
-</footer>
-</div>
-
-<!-- JavaScript for Neon Gold Hebrew Letters Flying Right Background Animation -->
-<script>
-  // Get the canvas and its 2D context
-  const canvas = document.getElementById('hwind-bg');
-  const ctx = canvas.getContext('2d');
-
-  // Set canvas to full window size
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-
-  // Hebrew alphabet letters
-  const hebrewLetters = "אבגדהוזחטיכלמנסעפצקרשת";
-  const fontSize = 30;
-  let letterCount = Math.floor(canvas.width / 20);
-  const letters = [];
-
-  // Initialize an array of letter objects for animation
-  for (let i = 0; i < letterCount; i++) {
-    letters.push({
-      x: -Math.random() * 100, // Start off-screen to the left
-      baseY: Math.random() * canvas.height,
-      speed: 3 + Math.random() * 6, // Faster speed for more dynamic movement
-      amplitude: 5 + Math.random() * 15,
-      phase: Math.random() * 2 * Math.PI,
-      frequency: 0.02 + Math.random() * 0.05,
-      letter: hebrewLetters.charAt(Math.floor(Math.random() * hebrewLetters.length))
-    });
-  }
-
-  // Draw function to animate the letters
-  function draw() {
-    // Clear the canvas with a light sky blue background
-    ctx.fillStyle = "#87CEEB"; // Light Sky Blue
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // Set neon gold style for the letters
-    ctx.fillStyle = "#FFD700"; // Neon Gold color
-    ctx.shadowColor = "#FFD700";
-    ctx.shadowBlur = 10;
-    ctx.font = "bold " + fontSize + "px monospace";
-
-    // Update and draw each letter
-    for (let i = 0; i < letters.length; i++) {
-      const letterObj = letters[i];
-      letterObj.x += letterObj.speed; // Move letters to the right
-      letterObj.phase += letterObj.frequency;
-      const y = letterObj.baseY + letterObj.amplitude * Math.sin(letterObj.phase);
-
-      // Draw the letter at its updated position
-      ctx.fillText(letterObj.letter, letterObj.x, y);
-
-      // Reset letter when it moves off the right side of the screen
-      if (letterObj.x > canvas.width + fontSize) {
-        letterObj.x = -Math.random() * 100; // Restart from the left side
-        letterObj.baseY = Math.random() * canvas.height; // Random vertical position
-        letterObj.speed = 3 + Math.random() * 6; // Reset the speed to random
-        letterObj.amplitude = 5 + Math.random() * 15; // Random vertical movement
-        letterObj.phase = Math.random() * 2 * Math.PI; // Reset the phase
-        letterObj.frequency = 0.02 + Math.random() * 0.05; // Random frequency for vertical sine wave
-        letterObj.letter = hebrewLetters.charAt(Math.floor(Math.random() * hebrewLetters.length)); // New random letter
-      }
-    }
-
-    // Request the next frame
-    requestAnimationFrame(draw);
-  }
-
-  // Call the draw function
-  draw();
-
-  // Adjust canvas size on window resize
-  window.addEventListener('resize', () => {
+    // Set canvas to full window size
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    // Optionally recalculate letterCount and reinitialize letters here
-  });
-</script>
+
+    // Hebrew alphabet letters
+    const hebrewLetters = "אבגדהוזחטיכלמנסעפצקרשת";
+    const fontSize = 30;
+    let letterCount = Math.floor(canvas.width / 20);
+    const letters = [];
+
+    // Initialize an array of letter objects for animation
+    for (let i = 0; i < letterCount; i++) {
+      letters.push({
+        x: -Math.random() * 100, // Start off-screen to the left
+        baseY: Math.random() * canvas.height,
+        speed: 3 + Math.random() * 6, // Faster speed for more dynamic movement
+        amplitude: 5 + Math.random() * 15,
+        phase: Math.random() * 2 * Math.PI,
+        frequency: 0.02 + Math.random() * 0.05,
+        letter: hebrewLetters.charAt(Math.floor(Math.random() * hebrewLetters.length))
+      });
+    }
+
+    // Draw function to animate the letters
+    function draw() {
+      // Clear the canvas with a light sky blue background
+      ctx.fillStyle = "#87CEEB"; // Light Sky Blue
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Set neon gold style for the letters
+      ctx.fillStyle = "#FFD700"; // Neon Gold color
+      ctx.shadowColor = "#FFD700";
+      ctx.shadowBlur = 10;
+      ctx.font = "bold " + fontSize + "px monospace";
+
+      // Update and draw each letter
+      for (let i = 0; i < letters.length; i++) {
+        const letterObj = letters[i];
+        letterObj.x += letterObj.speed; // Move letters to the right
+        letterObj.phase += letterObj.frequency;
+        const y = letterObj.baseY + letterObj.amplitude * Math.sin(letterObj.phase);
+
+        // Draw the letter at its updated position
+        ctx.fillText(letterObj.letter, letterObj.x, y);
+
+        // Reset letter when it moves off the right side of the screen
+        if (letterObj.x > canvas.width + fontSize) {
+          letterObj.x = -Math.random() * 100; // Restart from the left side
+          letterObj.baseY = Math.random() * canvas.height; // Random vertical position
+          letterObj.speed = 3 + Math.random() * 6; // Reset the speed to random
+          letterObj.amplitude = 5 + Math.random() * 15; // Random vertical movement
+          letterObj.phase = Math.random() * 2 * Math.PI; // Reset the phase
+          letterObj.frequency = 0.02 + Math.random() * 0.05; // Random frequency for vertical sine wave
+          letterObj.letter = hebrewLetters.charAt(Math.floor(Math.random() * hebrewLetters.length)); // New random letter
+        }
+      }
+
+      // Request the next frame
+      requestAnimationFrame(draw);
+    }
+
+    // Call the draw function
+    draw();
+
+    // Adjust canvas size on window resize
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      // Optionally recalculate letterCount and reinitialize letters here
+    });
+  </script>
 </body>
 </html>
