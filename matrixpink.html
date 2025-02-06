@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pink Korean Matrix Rain</title>
+  <style>
+    /* Ensure the canvas fills the screen and remove default margins */
+    body { margin: 0; overflow: hidden; background-color: #000; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <canvas id="matrixpink"></canvas>
+  <script>
+    // Get canvas and context
+    var canvas = document.getElementById("matrixpink");
+    var ctx = canvas.getContext("2d");
+
+    // Set canvas dimensions to fill the window
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    // Korean letters for the matrix effect.
+    var letters = "가나다라마바사아자차카타파하";
+    var fontSize = 16;
+    var columns = Math.floor(canvas.width / fontSize);
+    var drops = [];
+    for (var i = 0; i < columns; i++) {
+      drops[i] = 1; // start at the top for each column
+    }
+
+    // Draw function to create the animation
+    function draw() {
+      // Create a fading effect with a translucent black rectangle
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // Set text styles: pink color with a glowing shadow, bold font
+      ctx.fillStyle = "#FF69B4";
+      ctx.shadowColor = "#FF69B4";
+      ctx.shadowBlur = 8;
+      ctx.font = "bold " + fontSize + "px monospace";
+      
+      // Loop over each drop
+      for (var i = 0; i < drops.length; i++) {
+        // Choose a random Korean letter
+        var text = letters.charAt(Math.floor(Math.random() * letters.length));
+        // Draw the letter at the calculated (x,y) position
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        
+        // Reset the drop to the top randomly once it goes off screen
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        
+        // Increment the y-coordinate for the drop
+        drops[i]++;
+      }
+    }
+    
+    // Run the draw function every 33 milliseconds (~30 FPS)
+    setInterval(draw, 33);
+  </script>
+</body>
+</html>
