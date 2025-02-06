@@ -61,7 +61,7 @@
     <div class="top-bar">
       <h2>LWing</h2>
       <div class="score-timer">
-        <span id="timer">0:00:00</span> | <span id="score">00000</span>
+        <span id="timer">0:00</span> | <span id="score">00000</span>
       </div>
     </div>
     <canvas id="gameCanvas"></canvas>
@@ -84,19 +84,18 @@
 
     let gameRunning = false;
     let obstacles = [];
-    let lastObstacleTime = 0;
     let score = 0;
+    let gameStartTime;
     const gravity = 0.3;
     const jumpStrength = -6;
     let countdownTime = 5;
     let countdownInterval;
 
     const lion = {
-      x: canvasWidth * 0.1,
+      x: canvasWidth * 0.2,
       y: canvasHeight * 0.5,
       width: 40,
       height: 40,
-      velocityX: 2,
       velocityY: 0,
       draw: function() {
         ctx.fillStyle = "#FFD700";
@@ -104,43 +103,48 @@
       },
       update: function() {
         this.velocityY += gravity;
-        this.x += this.velocityX;
         this.y += this.velocityY;
-
-        if (this.y < 0) this.y = 0;
-        if (this.y + this.height > canvasHeight) restartGame();
+        if (this.y < 0 || this.y + this.height > canvasHeight) restartGame();
       },
       flap: function() {
         this.velocityY = jumpStrength;
       }
     };
 
-    function Obstacle(x, y, size) {
-      this.x = x;
-      this.y = y;
-      this.width = size;
-      this.height = size;
-      this.velocityX = -2;
-      this.velocityY = 2;
+    function generateObstacles() {
+      let gapHeight = 150;
+      let topHeight = Math.random() * (canvasHeight - gapHeight - 50) + 25;
+      let bottomHeight = canvasHeight - topHeight - gapHeight;
+      obstacles.push({ x: canvasWidth, width: 60, topHeight, bottomHeight });
     }
 
-    Obstacle.prototype.draw = function() {
+    function updateObstacles() {
+      for (let i = obstacles.length - 1; i >= 0; i--) {
+        obstacles[i].x -= 3;
+        if (obstacles[i].x + obstacles[i].width < 0) obstacles.splice(i, 1);
+      }
+      if (obstacles.length === 0 || obstacles[obstacles.length - 1].x < canvasWidth - 200) {
+        generateObstacles();
+      }
+    }
+
+    function drawObstacles() {
       ctx.fillStyle = "#FF4500";
-      ctx.fillRect(this.x, this.y, this.width, this.height);
-    };
+      obstacles.forEach(obs => {
+        ctx.fillRect(obs.x, 0, obs.width, obs.topHeight);
+        ctx.fillRect(obs.x, canvasHeight - obs.bottomHeight, obs.width, obs.bottomHeight);
+      });
+    }
 
-    Obstacle.prototype.update = function() {
-      this.x += this.velocityX;
-      this.y += this.velocityY;
-    };
-
-    function checkCollision(a, b) {
-      return (
-        a.x < b.x + b.width &&
-        a.x + a.width > b.x &&
-        a.y < b.y + b.height &&
-        a.y + a.height > b.y
-      );
+    function checkCollision() {
+      for (let obs of obstacles) {
+        if (
+          (lion.x < obs.x + obs.width && lion.x + lion.width > obs.x && lion.y < obs.topHeight) ||
+          (lion.x < obs.x + obs.width && lion.x + lion.width > obs.x && lion.y + lion.height > canvasHeight - obs.bottomHeight)
+        ) {
+          restartGame();
+        }
+      }
     }
 
     document.addEventListener('keydown', (e) => {
@@ -154,29 +158,13 @@
       ctx.clearRect(0, 0, canvasWidth, canvasHeight);
       lion.update();
       lion.draw();
-
-      if (Date.now() - lastObstacleTime > 1500) {
-        let size = 30 + Math.random() * 30;
-        let obsX = canvasWidth;
-        let obsY = Math.random() * (canvasHeight - size);
-        obstacles.push(new Obstacle(obsX, obsY, size));
-        lastObstacleTime = Date.now();
-      }
-
-      for (let i = obstacles.length - 1; i >= 0; i--) {
-        let obs = obstacles[i];
-        obs.update();
-        obs.draw();
-
-        if (checkCollision(lion, obs)) restartGame();
-        if (obs.x + obs.width < 0) obstacles.splice(i, 1);
-      }
-
+      updateObstacles();
+      drawObstacles();
+      checkCollision();
       let elapsed = Math.floor((Date.now() - gameStartTime) / 1000);
       document.getElementById('timer').textContent = `0:${elapsed.toString().padStart(2, '0')}`;
       score = elapsed * 10;
       document.getElementById('score').textContent = score.toString().padStart(5, '0');
-
       requestAnimationFrame(gameLoop);
     }
 
@@ -199,6 +187,7 @@
       lion.y = canvasHeight * 0.5;
       lion.velocityY = 0;
       obstacles = [];
+      generateObstacles();
       gameStartTime = Date.now();
       gameRunning = true;
       gameLoop();
