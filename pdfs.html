@@ -1,6 +1,4 @@
-Below is your updated `pdfs.html` file with the Matrix rain effect added as a full‑screen background. In this version, the canvas is placed behind your content, and the animation uses pink Korean letters. You can adjust the Korean characters or styling as needed.
 
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -301,21 +299,3 @@ Below is your updated `pdfs.html` file with the Matrix rain effect added as a fu
   </script>
 </body>
 </html>
-```
-
----
-
-### How This Works
-
-1. **Matrix Canvas Background:**  
-   The `<canvas id="matrix">` element is positioned fixed with `z-index: -1` so that it fills the viewport behind your main content.
-
-2. **Matrix Animation Script:**  
-   - The script sets up the canvas dimensions and calculates how many columns fit across the screen.  
-   - It uses a string of pink Korean letters (`가나다라마바사아자차카타파하`) and draws them in a falling rain effect with a pink glow.  
-   - A window resize listener updates the canvas dimensions and resets the columns accordingly.
-
-3. **Your Content Remains Unchanged:**  
-   The main content (header, navigation, PDFs table, contact section, and footer) is wrapped inside the `.container` div, which remains on top of the matrix background.
-
-You now have a full‑screen Matrix rain background with pink Korean letters behind your PDFs page. Enjoy!
