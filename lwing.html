@@ -86,7 +86,7 @@
     let obstacles = [];
     let score = 0;
     let gameStartTime;
-    const gravity = 0.3;
+    const gravity = 0.2;
     const jumpStrength = -6;
     let countdownTime = 5;
     let countdownInterval;
@@ -94,8 +94,8 @@
     const lion = {
       x: canvasWidth * 0.2,
       y: canvasHeight * 0.5,
-      width: 25,
-      height: 25,
+      width: 10,
+      height: 10,
       velocityY: 0,
       draw: function() {
         ctx.fillStyle = "#FFD700";
@@ -115,12 +115,12 @@
       let gapHeight = 150;
       let topHeight = Math.random() * (canvasHeight - gapHeight - 50) + 25;
       let bottomHeight = canvasHeight - topHeight - gapHeight;
-      obstacles.push({ x: canvasWidth, width: 30, topHeight, bottomHeight });
+      obstacles.push({ x: canvasWidth, width: 15, topHeight, bottomHeight });
     }
 
     function updateObstacles() {
       for (let i = obstacles.length - 1; i >= 0; i--) {
-        obstacles[i].x -= 2;
+        obstacles[i].x -= 1.5;
         if (obstacles[i].x + obstacles[i].width < 0) obstacles.splice(i, 1);
       }
       if (obstacles.length === 0 || obstacles[obstacles.length - 1].x < canvasWidth - 200) {
