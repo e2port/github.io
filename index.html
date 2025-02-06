@@ -1,10 +1,3 @@
-Below is one complete example of how to integrate the **winde.html** animation as the background of your **index.html** page. In this example, we add a full-screen `<canvas>` element (with a unique ID) that is styled to sit behind your content. Then we copy the JavaScript code from your existing **winde.html** so that the wind-driven neon Georgian letters animate in the background.
-
-Replace your current **index.html** with the following code:
-
----
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -365,23 +358,3 @@ Replace your current **index.html** with the following code:
   </script>
 </body>
 </html>
-```
-
----
-
-### How It Works
-
-1. **Canvas Background:**  
-   - A `<canvas id="winde-bg">` is added as the first element inside `<body>`.  
-   - Its CSS styles use `position: fixed; top: 0; left: 0; width: 100%; height: 100%;` with a `z-index` of `-1` so that it remains behind all other page content.
-
-2. **JavaScript Integration:**  
-   - The JavaScript code (copied from your working **winde.html**) initializes the canvas, creates an array of letter objects with randomized properties, and animates them from right to left with slight vertical sine-wave motion.
-   - The canvas is redrawn continuously using `requestAnimationFrame(draw)`.
-
-3. **Content Layer:**  
-   - The rest of your page (wrapped in the `.container` div) sits on top of the animated canvas background.
-
-Simply save this updated **index.html** file (ensuring that your images and other assets remain in their proper locations), and when you load the page the wind-driven neon Georgian letters will animate in the background while your content remains clearly visible on top.
-
-Enjoy your dynamic new background!
