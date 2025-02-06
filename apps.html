@@ -135,6 +135,10 @@
       text-align: center;
       margin: 0;
     }
+    /* A little extra styling for the pink preview text */
+    .pink-thumbnail p {
+      color: #FF69B4;
+    }
     .app-description {
       flex-grow: 1;
     }
@@ -147,7 +151,7 @@
       font-size: 1rem;
       margin: 0;
     }
-    /* Contact Section (similar to other pages) */
+    /* Contact Section */
     .section {
       margin: 40px 0;
       padding: 20px;
@@ -213,10 +217,10 @@
     
     <!-- Apps Grid -->
     <div class="apps-grid">
-      <!-- Matrix Animation App Preview Row (Replaces the Dooby App) -->
+      <!-- Blue Hebrew Matrix Rain App Preview Row -->
       <div class="app-row">
         <div class="app-thumbnail" id="matrix-preview">
-          <p>Click to Open<br>Matrix Animation</p>
+          <p>Click to Open<br>Blue Hebrew Matrix</p>
         </div>
         <div class="app-description">
           <h2>Blue Hebrew Matrix Rain</h2>
@@ -226,7 +230,20 @@
         </div>
       </div>
       
-      <!-- Another App Row (Unchanged) -->
+      <!-- Pink Korean Matrix Rain App Preview Row -->
+      <div class="app-row">
+        <div class="app-thumbnail pink-thumbnail" id="matrixpink-preview">
+          <p>Click to Open<br>Pink Korean Matrix</p>
+        </div>
+        <div class="app-description">
+          <h2>Pink Korean Matrix Rain</h2>
+          <p>
+            Dive into a vibrant reimagining of the Matrix. This app features cascading Korean letters in a dazzling pink glow, creating an entrancing digital spectacle. Click the preview to launch the full-screen animation in a new tab.
+          </p>
+        </div>
+      </div>
+      
+      <!-- Additional App Row (Example) -->
       <div class="app-row">
         <img src="images/dooby.png" alt="Dooby App Thumbnail" class="app-thumbnail">
         <div class="app-description">
@@ -255,10 +272,13 @@
     </footer>
   </div>
   
-  <!-- JavaScript for Matrix Preview Click Handler -->
+  <!-- JavaScript for App Preview Click Handlers -->
   <script>
     document.getElementById('matrix-preview').addEventListener('click', function() {
       window.open('matrix.html', '_blank');
+    });
+    document.getElementById('matrixpink-preview').addEventListener('click', function() {
+      window.open('matrixpink.html', '_blank');
     });
   </script>
 </body>
