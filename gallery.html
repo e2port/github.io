@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -16,6 +16,15 @@
       color: #444;
       line-height: 1.6;
       padding: 20px;
+    }
+    /* Matrix canvas styling: fills the viewport behind all content */
+    #matrix {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1; /* ensures the canvas stays behind everything */
     }
     /* Container with fade-in effect */
     .container {
@@ -36,7 +45,6 @@
       display: block;
       margin: 10px auto;
     }
-
     /* Header styling */
     header {
       text-align: center;
@@ -153,24 +161,25 @@
       .gallery-grid {
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       }
-    }
-    @media (max-width: 600px) {
       .portfolio-image {
         width: 80%; /* Adjust size for better fit */
       }
     }
-
   </style>
 </head>
 <body>
+  <!-- Matrix Canvas Background -->
+  <canvas id="matrix"></canvas>
+  
+  <!-- Main Content Container -->
   <div class="container">
-     <header>
+    <header>
       <!-- Hebrew text with super duper badass effects -->
       <p dir="rtl" class="hebrew-text">בס"ד</p>
       <h1>E2 Port - Digital Portfolio</h1>
       <p>Data Scientist & Versatile Tech Consultant</p>
     </header>
-    <!-- Navigation (matches index.html) -->
+    <!-- Navigation -->
     <nav>
       <a href="index.html">Home</a>
       <a href="gallery.html">Gallery</a>
@@ -202,6 +211,7 @@
       </a>
       <!-- Add more gallery items following the same structure -->
     </div>
+    <!-- Contact Section -->
     <section id="contact" class="section">
       <h2>Contact</h2>
       <p>
@@ -210,11 +220,76 @@
       </p>
       <img src="images/footballcat.png" alt="Cat Football" class="portfolio-image" />
     </section>
+    <!-- Footer -->
     <footer>
       &copy; 2025 E2 Port. All rights reserved. | Contact: 
       <a href="mailto:e2port18@gmail.com">e2port18@gmail.com</a>
     </footer>
-
   </div>
+  
+  <!-- Matrix Animation Script -->
+  <script>
+    // Get canvas and context
+    var canvas = document.getElementById("matrix");
+    var ctx = canvas.getContext("2d");
+
+    // Set canvas dimensions to match the window
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    // Hebrew letters string (adjust as needed)
+    var letters = "אבגדהוזחטיכלמנסעפצקרשת";
+    // Set the font size
+    var fontSize = 16;
+    // Calculate the number of columns based on canvas width and font size
+    var columns = Math.floor(canvas.width / fontSize);
+    // Create an array of drop positions (one per column)
+    var drops = [];
+    for (var i = 0; i < columns; i++) {
+      drops[i] = 1; // start at the top of each column
+    }
+
+    // Draw function to animate the letters
+    function draw() {
+      // Fade effect: slightly darken the canvas on each frame
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // Set text styles: bluish color with a glowing shadow, bold font
+      ctx.fillStyle = "#00ccff";
+      ctx.shadowColor = "#00ccff";
+      ctx.shadowBlur = 8;
+      ctx.font = "bold " + fontSize + "px monospace";
+      
+      // Loop over drops (one per column)
+      for (var i = 0; i < drops.length; i++) {
+        // Pick a random Hebrew letter
+        var text = letters.charAt(Math.floor(Math.random() * letters.length));
+        // Draw the letter at the calculated (x, y) position
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        
+        // Reset drop to top randomly when it goes off screen
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        // Move drop down one position
+        drops[i]++;
+      }
+    }
+    
+    // Run the draw function every 33 milliseconds (~30 FPS)
+    setInterval(draw, 33);
+    
+    // Optional: Update canvas size on window resize
+    window.addEventListener('resize', function() {
+      canvas.height = window.innerHeight;
+      canvas.width = window.innerWidth;
+      columns = Math.floor(canvas.width / fontSize);
+      drops = [];
+      for (var i = 0; i < columns; i++) {
+        drops[i] = 1;
+      }
+    });
+  </script>
 </body>
 </html>
