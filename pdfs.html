@@ -15,15 +15,14 @@
       height: 100%;
       z-index: -1;
     }
+    /* Center and align the Contact section */
     #contact {
-      text-align: center; /* Centers inline content like text and links */
+      text-align: center;
       display: flex;
       flex-direction: column;
-      align-items: center; /* Ensures the image and text stay centered */
+      align-items: center;
       justify-content: center;
     }
-
-
     /* Reset default margins/padding */
     body, h1, h2, p, ul, li, a, table, th, td {
       margin: 0;
@@ -36,7 +35,7 @@
       line-height: 1.6;
       padding: 20px;
     }
-    /* Container with fade-in effect */
+    /* Main container with a tapered top using clip-path */
     .container {
       clip-path: polygon(3% 0, 97% 0, 100% 100%, 0 100%);
       max-width: 900px;
@@ -75,7 +74,6 @@
     footer {
       text-align: center;
     }
-
     /* Hebrew text animation effects */
     .hebrew-text {
       font-size: 1.8rem;
@@ -107,7 +105,7 @@
         text-shadow: 0 0 10px rgba(204, 94, 232, 0.5);
       }
     }
-    /* Navigation with popout and twirl effect */
+    /* Navigation styling */
     nav {
       text-align: center;
       margin: 20px 0;
@@ -124,7 +122,7 @@
       transform: scale(1.2) rotate(5deg);
       color: #20606e;
     }
-    /* PDFs Table Styling */
+    /* PDFs Table Styling (4 columns: Name, Date, Size, Description) */
     table {
       width: 100%;
       border-collapse: collapse;
@@ -189,45 +187,27 @@
     <!-- PDFs Header -->
     <header>
       <h1>PDFs</h1>
-      <p>Below is a table of available PDFs. Click on the link to open the file in a new tab.</p>
+      <p>Below is a list of available PDFs. Click on the file name to open it in a new tab.</p>
     </header>
     
-    <!-- PDFs Table -->
+    <!-- PDFs Table with 4 columns -->
     <table>
       <thead>
         <tr>
-          <th>File Name</th>
-          <th>File Type</th>
-          <th>Date Uploaded</th>
-          <th>Date Edited</th>
-          <th>File Size</th>
-          <th>Link to new tab</th>
-          <th>Short Description</th>
+          <th>Name</th>
+          <th>Date</th>
+          <th>Size</th>
+          <th>Description</th>
         </tr>
       </thead>
       <tbody>
-        <!-- 7 blank rows -->
         <tr>
-          <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+          <td><a href="lwing.html" target="_blank">Lwing</a></td>
+          <td>2025-02-06</td>
+          <td>1 MB</td>
+          <td>First PDF file.</td>
         </tr>
-        <tr>
-          <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-        </tr>
-        <tr>
-          <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-        </tr>
-        <tr>
-          <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-        </tr>
-        <tr>
-          <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-        </tr>
-        <tr>
-          <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-        </tr>
-        <tr>
-          <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-        </tr>
+        <!-- Add more rows as needed -->
       </tbody>
     </table>
     
