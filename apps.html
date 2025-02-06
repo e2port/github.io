@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apps - E2 Port Digital Portfolio</title>
+  <link rel="icon" href="images/cicon.webp" type="image/webp" />
+  <style>
+    /* Reset default margins/padding */
+    body, h1, h2, p, ul, li, a, img, div {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "Franklin Gothic Medium", Arial, sans-serif;
+      background-color: #2b3e50;
+      color: #444;
+      line-height: 1.6;
+      padding: 20px;
+    }
+    /* Container with fade-in effect */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #f4f9fc; /* Dull pale blue background */
+      padding: 30px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 0.8s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.98); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    /* Header styling */
+    header {
+      text-align: center;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #d9d9d9;
+      margin-bottom: 20px;
+    }
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      color: #2a7f8c;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    }
+    header p {
+      font-size: 1.1rem;
+      color: #666;
+    }
+    /* Hebrew text animation effects */
+    .hebrew-text {
+      font-size: 1.8rem;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 5px;
+      background: linear-gradient(45deg, #ff6b6b, #f06595, #cc5de8, #845ef7, #5c7cfa);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientAnimation 3s ease infinite, pulseAnimation 1.5s ease-in-out infinite;
+    }
+    @keyframes gradientAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes pulseAnimation {
+      0% {
+        transform: scale(1);
+        text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+      }
+      50% {
+        transform: scale(1.1);
+        text-shadow: 0 0 20px rgba(240, 101, 149, 0.7);
+      }
+      100% {
+        transform: scale(1);
+        text-shadow: 0 0 10px rgba(204, 94, 232, 0.5);
+      }
+    }
+    /* Navigation styling */
+    nav {
+      text-align: center;
+      margin: 20px 0;
+    }
+    nav a {
+      text-decoration: none;
+      color: #2a7f8c;
+      margin: 0 15px;
+      font-size: 1rem;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.3s ease;
+      display: inline-block;
+    }
+    nav a:hover {
+      transform: scale(1.2) rotate(5deg);
+      color: #20606e;
+    }
+    /* Apps Grid Styling */
+    .apps-grid {
+      margin-top: 20px;
+    }
+    .app-row {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+      border: 1px solid #d9d9d9;
+      border-radius: 8px;
+      background: #f9f9f9;
+      margin-bottom: 15px;
+      transition: background 0.3s ease;
+    }
+    .app-row:hover {
+      background-color: #e8f4fd;
+    }
+    .app-thumbnail {
+      width: 150px;
+      height: 150px;
+      flex-shrink: 0;
+      border: 1px solid #d9d9d9;
+      border-radius: 5px;
+      object-fit: cover;
+      margin-right: 20px;
+    }
+    .app-description {
+      flex-grow: 1;
+    }
+    .app-description h2 {
+      margin-bottom: 10px;
+      font-size: 1.5rem;
+      color: #2a7f8c;
+    }
+    .app-description p {
+      font-size: 1rem;
+      margin: 0;
+    }
+    /* Contact Section (similar to other pages) */
+    .section {
+      margin: 40px 0;
+      padding: 20px;
+      border: 2px solid #d9d9d9;
+      border-radius: 8px;
+      background: #f4f9fc;
+      position: relative;
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    /* Footer styling */
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #777;
+      border-top: 1px solid #d9d9d9;
+      padding-top: 20px;
+      margin-top: 20px;
+    }
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+      header h1 { font-size: 2rem; }
+      nav a { display: block; margin: 10px 0; }
+      .app-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .app-thumbnail {
+        margin-right: 0;
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Main Header -->
+    <header>
+      <!-- Hebrew text with super duper badass effects -->
+      <p dir="rtl" class="hebrew-text">בס"ד</p>
+      <h1>E2 Port - Digital Portfolio</h1>
+      <p>Data Scientist & Versatile Tech Consultant</p>
+    </header>
+    
+    <!-- Navigation -->
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="pdfs.html">PDFs</a>
+      <a href="apps.html">Apps</a>
+      <a href="updates.html">Updates</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    
+    <!-- Apps Header -->
+    <header>
+      <h1>Apps & Games</h1>
+      <p>Below is a showcase of available games and apps. Click on an app for more details.</p>
+    </header>
+    
+    <!-- Apps Grid -->
+    <div class="apps-grid">
+      <!-- Sample App Row -->
+      <div class="app-row">
+        <img src="images/dooby.png" alt="Dooby App Thumbnail" class="app-thumbnail">
+        <div class="app-description">
+          <h2>Dooby App</h2>
+          <p>This sample app showcases a dynamic gameplay and innovative interface. Explore features, play the game, and see how creativity meets technology.</p>
+        </div>
+      </div>
+      <!-- You can add additional app rows following the same structure -->
+      <div class="app-row">
+        <img src="images/dooby.png" alt="Dooby App Thumbnail" class="app-thumbnail">
+        <div class="app-description">
+          <h2>Another App</h2>
+          <p>This is another example of an app or game description. Customize this section with details about the app's functionality, features, and unique design.</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+      <h2>Contact</h2>
+      <p>
+        Feel free to reach out via email at <a href="mailto:e2port18@gmail.com">e2port18@gmail.com</a>.<br><br>
+        All the best!
+      </p>
+      <img src="images/footballcat.png" alt="Cat Football" class="portfolio-image" />
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+      &copy; 2025 E2 Port. All rights reserved. | Contact: 
+      <a href="mailto:e2port18@gmail.com">e2port18@gmail.com</a>
+    </footer>
+  </div>
+</body>
+</html>
