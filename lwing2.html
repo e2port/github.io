@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LWing2 - The Winged Lion Game</title>
+  <!-- Importing Orbitron font for the heading -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #1a1a1a;
+      font-family: Arial, sans-serif;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .game-container {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 90vw;
+      max-width: 600px;
+      height: 80vh;
+    }
+    .top-bar {
+      width: 100%;
+      background: #444;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .top-bar h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 28px;
+      color: #FFD700;
+      margin: 0;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    .score-timer {
+      font-size: 16px;
+      background: #222;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+    canvas {
+      width: 100%;
+      height: 100%;
+      background: #87CEEB;
+    }
+    .countdown {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 50px;
+      font-weight: bold;
+      color: #FFD700;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <div class="top-bar">
+      <h2>LWing2</h2>
+      <div class="score-timer">
+        <span id="timer">000</span> | <span id="score">00000</span>
+      </div>
+    </div>
+    <canvas id="gameCanvas"></canvas>
+    <div id="countdown" class="countdown"></div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    let canvasWidth, canvasHeight;
+
+    function resizeCanvas() {
+      canvasWidth = canvas.clientWidth;
+      canvasHeight = canvas.clientHeight;
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
+      // Reposition lion relative to the new canvas width
+      lion.x = canvasWidth * 0.2;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    let gameRunning = false;
+    let obstacles = [];
+    let score = 0;
+    let gameStartTime;
+    const gravity = 0.2;
+    const jumpStrength = -6;
+    let countdownTime = 4;
+    let countdownInterval;
+    let bgInterval;
+
+    // Background colors to cycle through every 10 seconds
+    const backgroundColors = ["#87CEEB", "#FFB6C1", "#90EE90", "#FFA07A", "#DDA0DD", "#ADD8E6"];
+    let currentBgIndex = 0;
+    function changeBackgroundColor() {
+      currentBgIndex = (currentBgIndex + 1) % backgroundColors.length;
+      canvas.style.background = backgroundColors[currentBgIndex];
+    }
+    // Start background color cycling immediately
+    bgInterval = setInterval(changeBackgroundColor, 10000);
+
+    // The main character – now a purple rectangle with twice the original width.
+    const lion = {
+      x: canvasWidth * 0.2,
+      y: canvasHeight * 0.5,
+      width: 20, // Updated width (twice the original)
+      height: 10,
+      velocityY: 0,
+      draw: function() {
+        ctx.fillStyle = "#800080"; // Purple color
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+      },
+      update: function() {
+        this.velocityY += gravity;
+        this.y += this.velocityY;
+        if (this.y < 0 || this.y + this.height > canvasHeight) restartGame();
+      },
+      flap: function() {
+        this.velocityY = jumpStrength;
+      }
+    };
+
+    function generateObstacles() {
+      let gapHeight = 150;
+      let topHeight = Math.random() * (canvasHeight - gapHeight - 50) + 25;
+      let bottomHeight = canvasHeight - topHeight - gapHeight;
+      obstacles.push({ x: canvasWidth, width: 15, topHeight, bottomHeight });
+    }
+
+    function updateObstacles() {
+      for (let i = obstacles.length - 1; i >= 0; i--) {
+        obstacles[i].x -= 1.5;
+        if (obstacles[i].x + obstacles[i].width < 0) obstacles.splice(i, 1);
+      }
+      if (obstacles.length === 0 || obstacles[obstacles.length - 1].x < canvasWidth - 200) {
+        generateObstacles();
+      }
+    }
+
+    function drawObstacles() {
+      ctx.fillStyle = "#FF4500";
+      obstacles.forEach(obs => {
+        ctx.fillRect(obs.x, 0, obs.width, obs.topHeight);
+        ctx.fillRect(obs.x, canvasHeight - obs.bottomHeight, obs.width, obs.bottomHeight);
+      });
+    }
+
+    function checkCollision() {
+      for (let obs of obstacles) {
+        if (
+          (lion.x < obs.x + obs.width && lion.x + lion.width > obs.x && lion.y < obs.topHeight) ||
+          (lion.x < obs.x + obs.width && lion.x + lion.width > obs.x && lion.y + lion.height > canvasHeight - obs.bottomHeight)
+        ) {
+          restartGame();
+        }
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === " ") lion.flap();
+    });
+
+    document.addEventListener('click', () => lion.flap());
+
+    function gameLoop() {
+      if (!gameRunning) return;
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+      lion.update();
+      lion.draw();
+      updateObstacles();
+      drawObstacles();
+      checkCollision();
+
+      let elapsed = Math.floor((Date.now() - gameStartTime) / 1000);
+      // Update timer display
+      document.getElementById('timer').textContent = `0:${elapsed.toString().padStart(2, '0')}`;
+      
+      // Calculate score using piecewise Fibonacci-based multipliers:
+      // 0–20 sec: 10 pts/sec, 21–30 sec: 20 pts/sec, 31–40 sec: 30 pts/sec, after 40 sec: 50 pts/sec.
+      if (elapsed <= 10) {
+        score = elapsed * 10;
+      } else if (elapsed <= 20) {
+        score = elapsed * 10;
+      } else if (elapsed <= 30) {
+        score = 200 + (elapsed - 20) * 20;
+      } else if (elapsed <= 40) {
+        score = 400 + (elapsed - 30) * 30;
+      } else {
+        score = 700 + (elapsed - 40) * 50;
+      }
+      
+      document.getElementById('score').textContent = score.toString().padStart(4, '0');
+      requestAnimationFrame(gameLoop);
+    }
+
+    function restartGame() {
+      gameRunning = false;
+      countdownTime = 4;
+      document.getElementById('countdown').textContent = countdownTime;
+      countdownInterval = setInterval(() => {
+        countdownTime--;
+        document.getElementById('countdown').textContent = countdownTime;
+        if (countdownTime <= 0) {
+          clearInterval(countdownInterval);
+          document.getElementById('countdown').textContent = "";
+          startGame();
+        }
+      }, 1000);
+    }
+
+    function startGame() {
+      lion.y = canvasHeight * 0.5;
+      lion.velocityY = 0;
+      obstacles = [];
+      generateObstacles();
+      gameStartTime = Date.now();
+      gameRunning = true;
+      gameLoop();
+    }
+
+    restartGame();
+  </script>
+</body>
+</html>
