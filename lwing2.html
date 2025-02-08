@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LWing2 - The Winged Lion Game</title>
   <style>
     body {
@@ -38,7 +38,7 @@
       /* Using Impact (system font) instead of Orbitron */
       font-family: Impact, Charcoal, sans-serif;
       font-size: 28px;
-      color: #FFD700;
+      color: #ffd700;
       margin: 0;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     }
@@ -51,7 +51,7 @@
     canvas {
       width: 100%;
       height: 100%;
-      background: #87CEEB;
+      background: #87ceeb;
     }
     .countdown {
       position: absolute;
@@ -60,7 +60,8 @@
       transform: translate(-50%, -50%);
       font-size: 50px;
       font-weight: bold;
-      color: #FFD700;
+      color: #ffd700;
+      z-index: 10; /* Ensures the countdown appears above the canvas */
     }
   </style>
 </head>
@@ -77,8 +78,8 @@
   </div>
 
   <script>
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
     let canvasWidth, canvasHeight;
 
     function resizeCanvas() {
@@ -89,7 +90,7 @@
       // Reposition lion relative to the new canvas width
       lion.x = canvasWidth * 0.2;
     }
-    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener("resize", resizeCanvas);
     resizeCanvas();
 
     let gameRunning = false;
@@ -103,7 +104,14 @@
     let bgInterval;
 
     // Background colors to cycle through every 10 seconds
-    const backgroundColors = ["#87CEEB", "#FFB6C1", "#90EE90", "#FFA07A", "#DDA0DD", "#ADD8E6"];
+    const backgroundColors = [
+      "#87CEEB",
+      "#FFB6C1",
+      "#90EE90",
+      "#FFA07A",
+      "#DDA0DD",
+      "#ADD8E6"
+    ];
     let currentBgIndex = 0;
     function changeBackgroundColor() {
       currentBgIndex = (currentBgIndex + 1) % backgroundColors.length;
@@ -119,16 +127,16 @@
       width: 20, // Twice the original width
       height: 10,
       velocityY: 0,
-      draw: function() {
+      draw: function () {
         ctx.fillStyle = "#800080"; // Purple color
         ctx.fillRect(this.x, this.y, this.width, this.height);
       },
-      update: function() {
+      update: function () {
         this.velocityY += gravity;
         this.y += this.velocityY;
         if (this.y < 0 || this.y + this.height > canvasHeight) restartGame();
       },
-      flap: function() {
+      flap: function () {
         this.velocityY = jumpStrength;
       }
     };
@@ -145,14 +153,17 @@
         obstacles[i].x -= 1.5;
         if (obstacles[i].x + obstacles[i].width < 0) obstacles.splice(i, 1);
       }
-      if (obstacles.length === 0 || obstacles[obstacles.length - 1].x < canvasWidth - 200) {
+      if (
+        obstacles.length === 0 ||
+        obstacles[obstacles.length - 1].x < canvasWidth - 200
+      ) {
         generateObstacles();
       }
     }
 
     function drawObstacles() {
       ctx.fillStyle = "#FF4500";
-      obstacles.forEach(obs => {
+      obstacles.forEach((obs) => {
         ctx.fillRect(obs.x, 0, obs.width, obs.topHeight);
         ctx.fillRect(obs.x, canvasHeight - obs.bottomHeight, obs.width, obs.bottomHeight);
       });
@@ -161,19 +172,22 @@
     function checkCollision() {
       for (let obs of obstacles) {
         if (
-          (lion.x < obs.x + obs.width && lion.x + lion.width > obs.x && lion.y < obs.topHeight) ||
-          (lion.x < obs.x + obs.width && lion.x + lion.width > obs.x && lion.y + lion.height > canvasHeight - obs.bottomHeight)
+          (lion.x < obs.x + obs.width &&
+            lion.x + lion.width > obs.x &&
+            lion.y < obs.topHeight) ||
+          (lion.x < obs.x + obs.width &&
+            lion.x + lion.width > obs.x &&
+            lion.y + lion.height > canvasHeight - obs.bottomHeight)
         ) {
           restartGame();
         }
       }
     }
 
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener("keydown", (e) => {
       if (e.key === " ") lion.flap();
     });
-
-    document.addEventListener('click', () => lion.flap());
+    document.addEventListener("click", () => lion.flap());
 
     function gameLoop() {
       if (!gameRunning) return;
@@ -186,8 +200,10 @@
 
       let elapsed = Math.floor((Date.now() - gameStartTime) / 1000);
       // Update timer display
-      document.getElementById('timer').textContent = `0:${elapsed.toString().padStart(2, '0')}`;
-      
+      document.getElementById("timer").textContent = `0:${elapsed
+        .toString()
+        .padStart(2, "0")}`;
+
       // Calculate score using piecewise Fibonacci-based multipliers:
       // 0–20 sec: 10 pts/sec, 21–30 sec: 20 pts/sec, 31–40 sec: 30 pts/sec, after 40 sec: 50 pts/sec.
       if (elapsed <= 10) {
@@ -201,8 +217,8 @@
       } else {
         score = 700 + (elapsed - 40) * 50;
       }
-      
-      document.getElementById('score').textContent = score.toString().padStart(5, '0');
+
+      document.getElementById("score").textContent = score.toString().padStart(5, "0");
       requestAnimationFrame(gameLoop);
     }
 
@@ -213,14 +229,14 @@
         clearInterval(countdownInterval);
       }
       countdownTime = 4;
-      document.getElementById('countdown').textContent = countdownTime;
+      document.getElementById("countdown").textContent = countdownTime;
       countdownInterval = setInterval(() => {
         countdownTime--;
         if (countdownTime > 0) {
-          document.getElementById('countdown').textContent = countdownTime;
+          document.getElementById("countdown").textContent = countdownTime;
         } else {
           clearInterval(countdownInterval);
-          document.getElementById('countdown').textContent = "";
+          document.getElementById("countdown").textContent = "";
           startGame();
         }
       }, 1000);
