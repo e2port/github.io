@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LWing2 - The Winged Lion Game</title>
-  <!-- Importing Orbitron font for the heading -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
@@ -37,7 +35,8 @@
       align-items: center;
     }
     .top-bar h2 {
-      font-family: 'Orbitron', sans-serif;
+      /* Using Impact (system font) instead of Orbitron */
+      font-family: Impact, Charcoal, sans-serif;
       font-size: 28px;
       color: #FFD700;
       margin: 0;
@@ -100,7 +99,7 @@
     const gravity = 0.2;
     const jumpStrength = -6;
     let countdownTime = 4;
-    let countdownInterval;
+    let countdownInterval = null;
     let bgInterval;
 
     // Background colors to cycle through every 10 seconds
@@ -113,11 +112,11 @@
     // Start background color cycling immediately
     bgInterval = setInterval(changeBackgroundColor, 10000);
 
-    // The main character – now a purple rectangle with twice the original width.
+    // The main character – a purple rectangle with twice the original width.
     const lion = {
       x: canvasWidth * 0.2,
       y: canvasHeight * 0.5,
-      width: 20, // Updated width (twice the original)
+      width: 20, // Twice the original width
       height: 10,
       velocityY: 0,
       draw: function() {
@@ -203,18 +202,23 @@
         score = 700 + (elapsed - 40) * 50;
       }
       
-      document.getElementById('score').textContent = score.toString().padStart(4, '0');
+      document.getElementById('score').textContent = score.toString().padStart(5, '0');
       requestAnimationFrame(gameLoop);
     }
 
     function restartGame() {
       gameRunning = false;
+      // Clear any existing countdown interval to avoid duplicates
+      if (countdownInterval) {
+        clearInterval(countdownInterval);
+      }
       countdownTime = 4;
       document.getElementById('countdown').textContent = countdownTime;
       countdownInterval = setInterval(() => {
         countdownTime--;
-        document.getElementById('countdown').textContent = countdownTime;
-        if (countdownTime <= 0) {
+        if (countdownTime > 0) {
+          document.getElementById('countdown').textContent = countdownTime;
+        } else {
           clearInterval(countdownInterval);
           document.getElementById('countdown').textContent = "";
           startGame();
@@ -232,6 +236,7 @@
       gameLoop();
     }
 
+    // Start the first countdown on load.
     restartGame();
   </script>
 </body>
