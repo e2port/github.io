@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hebrew Matrix Grass</title>
+  <style>
+    /* Remove default margins and ensure the canvas fills the screen.
+       The body’s background is now a vibrant orange. */
+    body { margin: 0; overflow: hidden; background-color: #FFA500; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <canvas id="matrix"></canvas>
+
+  <script>
+    // Get canvas and context
+    var canvas = document.getElementById("matrix");
+    var ctx = canvas.getContext("2d");
+
+    // Set canvas dimensions to fill the window
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    // Hebrew letters string (feel free to adjust as you like)
+    var letters = "אבגדהוזחטיכלמנסעפצקרשת";
+
+    /* 
+      Define five different font sizes for the rising letters.
+      (You can tweak these values if you’d prefer different sizes.)
+    */
+    var sizes = [20, 30, 40, 50, 60];
+    // We use the largest size for horizontal spacing so letters don’t overlap too much.
+    var maxSize = Math.max(...sizes);
+    // Calculate how many columns will fit across the canvas.
+    var columns = Math.floor(canvas.width / maxSize);
+
+    /* 
+      Create an array of drop objects (one per column). Each drop object stores:
+        - y: the current vertical position (in pixels)
+        - fontSize: one of the five sizes (randomly chosen)
+        - speed: a speed based on the font size (so larger letters move faster)
+      
+      Since the letters will be coming from the bottom upward, each drop starts at canvas.height.
+    */
+    var drops = [];
+    for (var i = 0; i < columns; i++) {
+      var size = sizes[Math.floor(Math.random() * sizes.length)];
+      drops[i] = {
+        y: canvas.height,
+        fontSize: size,
+        speed: size / 2
+      };
+    }
+
+    // A time variable for the pulsating sun effect
+    var time = 0;
+
+    // The draw function: updates the background, the extra element (a pulsating sun),
+    // and then draws each Hebrew letter as it “rises” from the bottom.
+    function draw() {
+      // Fill the canvas with a semi‑transparent orange to create a trailing (fade) effect.
+      ctx.fillStyle = "rgba(255,165,0,0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // --- Draw a pulsating sun in the background ---
+      time += 0.05;
+      var centerX = canvas.width / 2;
+      var centerY = canvas.height / 3; // Position the sun about one‑third from the top.
+      var baseRadius = 80;
+      var amplitude = 20;
+      var radius = baseRadius + amplitude * Math.sin(time);
+      // Create a radial gradient for a glowing effect.
+      var gradient = ctx.createRadialGradient(centerX, centerY, radius * 0.1, centerX, centerY, radius);
+      gradient.addColorStop(0, "rgba(255, 255, 0, 0.8)");  // bright yellow in the center
+      gradient.addColorStop(1, "rgba(255, 165, 0, 0)");      // fades to transparent orange
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+      ctx.fill();
+      // --- End pulsating sun ---
+
+      // Set text styles for the rising letters: forest green with a glow.
+      ctx.fillStyle = "#228B22";
+      ctx.shadowColor = "#228B22";
+      ctx.shadowBlur = 8;
+
+      // Loop over each column drop.
+      for (var i = 0; i < drops.length; i++) {
+        // Pick a random Hebrew letter.
+        var text = letters.charAt(Math.floor(Math.random() * letters.length));
+        // Set the font for this drop based on its assigned font size.
+        ctx.font = "bold " + drops[i].fontSize + "px monospace";
+        // Draw the letter at the computed x (column) and current y position.
+        ctx.fillText(text, i * maxSize, drops[i].y);
+        
+        // Move the letter upward by subtracting its speed.
+        drops[i].y -= drops[i].speed;
+        
+        // When a drop moves off the top of the screen,
+        // reset it to the bottom (with a random chance to create a slight delay).
+        if (drops[i].y < 0 && Math.random() > 0.975) {
+          drops[i].y = canvas.height;
+          // Also reassign a new random font size and update its speed accordingly.
+          var newSize = sizes[Math.floor(Math.random() * sizes.length)];
+          drops[i].fontSize = newSize;
+          drops[i].speed = newSize / 2;
+        }
+      }
+    }
+    
+    // Run the draw function about 30 times per second.
+    setInterval(draw, 33);
+  </script>
+</body>
+</html>
