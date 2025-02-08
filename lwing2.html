@@ -81,7 +81,28 @@
     const canvas = document.getElementById("gameCanvas");
     const ctx = canvas.getContext("2d");
     let canvasWidth, canvasHeight;
-
+    
+    // The main character – a purple rectangle with twice the original width.
+    const lion = {
+      x: canvasWidth * 0.2,
+      y: canvasHeight * 0.5,
+      width: 20, // Twice the original width
+      height: 10,
+      velocityY: 0,
+      draw: function () {
+        ctx.fillStyle = "#800080"; // Purple color
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+      },
+      update: function () {
+        this.velocityY += gravity;
+        this.y += this.velocityY;
+        if (this.y < 0 || this.y + this.height > canvasHeight) restartGame();
+      },
+      flap: function () {
+        this.velocityY = jumpStrength;
+      }
+    };
+    
     function resizeCanvas() {
       canvasWidth = canvas.clientWidth;
       canvasHeight = canvas.clientHeight;
@@ -120,26 +141,6 @@
     // Start background color cycling immediately
     bgInterval = setInterval(changeBackgroundColor, 10000);
 
-    // The main character – a purple rectangle with twice the original width.
-    const lion = {
-      x: canvasWidth * 0.2,
-      y: canvasHeight * 0.5,
-      width: 20, // Twice the original width
-      height: 10,
-      velocityY: 0,
-      draw: function () {
-        ctx.fillStyle = "#800080"; // Purple color
-        ctx.fillRect(this.x, this.y, this.width, this.height);
-      },
-      update: function () {
-        this.velocityY += gravity;
-        this.y += this.velocityY;
-        if (this.y < 0 || this.y + this.height > canvasHeight) restartGame();
-      },
-      flap: function () {
-        this.velocityY = jumpStrength;
-      }
-    };
 
     function generateObstacles() {
       let gapHeight = 150;
