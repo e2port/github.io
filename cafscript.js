@@ -6,13 +6,13 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 // Variables
-let gameState = "countdown"; // can be 'countdown' or 'playing'
+let gameState = "countdown"; // can be 'countdown', 'playing', or 'completed'
 let countdownTime = 2;       // countdown is now 2 seconds
 let wave = 1;
 let player, finishLine, opponents;
 let lastTime = 0;
 let playerDirection = 0; // left = -1, right = 1
-let opponentsColor = "white"; // default color for opponents
+let opponentsColor = "white"; // default opponent color
 
 // Utility: Returns a random hex color string.
 function getRandomColor() {
@@ -28,14 +28,14 @@ function getRandomColor() {
 function createPlayer() {
     player = {
         x: canvas.width / 2,
-        y: 50,        // start near the top
-        radius: 15,   // base size (used for collision and drawing)
-        speed: 3      // speed for both horizontal and vertical movement
+        y: 50,         // Start near the top
+        radius: 15,    // Base size (used for collision and drawing)
+        speed: 4       // Increased speed for both horizontal and vertical movement
     };
 }
 
 // Create the opponents (upward-pointing triangles).
-// Their count increases by 2 each wave: wave 1 = 2, wave 2 = 4, etc.
+// Their count increases by 2 per wave: wave 1 = 2, wave 2 = 4, etc.
 function createOpponents() {
     // Every 3 rounds, change the opponents' color.
     if (wave % 3 === 1) {
@@ -117,22 +117,26 @@ function update(deltaTime) {
         // Keep the player within horizontal bounds.
         player.x = Math.max(0, Math.min(canvas.width, player.x));
         
-        // Update opponents: move upward with more erratic horizontal movement.
+        // Update opponents: they move upward with more erratic horizontal movement.
         for (let i = 0; i < opponents.length; i++) {
             opponents[i].y -= opponents[i].speed; // Move upward.
-            opponents[i].x += (Math.random() - 0.5) * 4; // Erratic horizontal movement.
+            opponents[i].x += (Math.random() - 0.5) * 6; // More erratic horizontal movement.
         }
         
         // Check if the football has reached the finish line.
         if (player.y > finishLine.y) {
-            // Wave completed: increment wave, then reset finish line and objects.
-            wave++;
-            createFinishLine();    // Always place finish line at canvas.height - 30.
-            createPlayer();        // Reset the football to the top.
-            createOpponents();     // Generate a new set of opponents.
-            gameState = "countdown";
-            countdownTime = 2;
-            playerDirection = 0;
+            if (wave < 32) {
+                wave++;
+                createFinishLine();    // Always place finish line at canvas.height - 30.
+                createPlayer();        // Reset the football to the top.
+                createOpponents();     // Generate a new set of opponents.
+                gameState = "countdown";
+                countdownTime = 2;
+                playerDirection = 0;
+            } else {
+                // Reached wave 32 – game is complete.
+                gameState = "completed";
+            }
         }
         
         // Check for collisions: if the football hits any triangle, reset the entire game.
@@ -146,11 +150,16 @@ function update(deltaTime) {
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    // Draw "Cool AF" in the top left in blue using Impact.
-    ctx.fillStyle = "blue";
-    ctx.font = "30px Impact";
+    // Draw "Cool AF" in the top left in a lighter blue with trippy glowing effects.
+    ctx.save();
+    ctx.fillStyle = "#ADD8E6"; // Light blue
+    ctx.font = "40px Impact";
     ctx.textAlign = "left";
-    ctx.fillText("Cool AF", 20, 40);
+    // Set glow effect
+    ctx.shadowColor = "#ADD8E6";
+    ctx.shadowBlur = 15;
+    ctx.fillText("Cool AF", 20, 50);
+    ctx.restore();
     
     // Draw the wave counter in the top right.
     ctx.fillStyle = "white";
@@ -164,10 +173,16 @@ function draw() {
         ctx.font = "48px Arial";
         ctx.fillText(`Starting in ${Math.ceil(countdownTime)}`, canvas.width / 2 - 150, canvas.height / 2);
     } else if (gameState === "playing") {
-        // Draw the football as an oval (ellipse) with a hazel color.
-        ctx.fillStyle = "#8E7618";
+        // Draw the football as an oval (ellipse) with a doper gradient look.
+        // Create a radial gradient for the doper effect.
+        let gradient = ctx.createRadialGradient(player.x, player.y, player.radius * 0.1, player.x, player.y, player.radius * 1.5);
+        gradient.addColorStop(0, "#8E7618"); // Original hazel
+        gradient.addColorStop(1, "#5E4C0C"); // Darker shade for depth
+        
+        ctx.fillStyle = gradient;
         ctx.beginPath();
-        // The football's horizontal radius is player.radius, vertical radius is 1.5 times that.
+        // The football's horizontal radius is player.radius,
+        // and vertical radius is 1.5 times that.
         ctx.ellipse(player.x, player.y, player.radius, player.radius * 1.5, 0, 0, Math.PI * 2);
         ctx.fill();
         
@@ -188,6 +203,12 @@ function draw() {
         ctx.moveTo(player.x, 0);
         ctx.lineTo(player.x, canvas.height);
         ctx.stroke();
+    } else if (gameState === "completed") {
+        // Display a completion message.
+        ctx.fillStyle = "white";
+        ctx.font = "64px Arial";
+        ctx.textAlign = "center";
+        ctx.fillText("Game Completed!", canvas.width / 2, canvas.height / 2);
     }
 }
 
