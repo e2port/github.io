@@ -17,9 +17,9 @@ let playerDirection = 0; // left = -1, right = 1
 function createPlayer() {
     player = {
         x: canvas.width / 2,
-        y: 50,        // start near the top
-        radius: 15,   // base size (used for collision and drawing)
-        speed: 2      // speed used for both horizontal and vertical movement
+        y: 50,        // Start near the top
+        radius: 15,   // Base size (used for collision and drawing)
+        speed: 2      // Speed for both horizontal and vertical movement
     };
 }
 
@@ -32,13 +32,13 @@ function createOpponents() {
             x: Math.random() * canvas.width,
             // Position them near the bottom; spacing them 50px apart vertically
             y: canvas.height - (i + 1) * 50,
-            radius: 15, // used as the “size” of the triangle
-            speed: Math.random() * 0.5 + 0.5 // random upward speed
+            radius: 15, // Base size for drawing; will be doubled when rendered
+            speed: Math.random() * 0.5 + 0.5 // Random upward speed for each opponent
         });
     }
 }
 
-// Create the finish line (a horizontal line near the bottom)
+// Create the finish line positioned a few pixels above the bottom of the screen
 function createFinishLine() {
     finishLine = {
         y: canvas.height - 30,
@@ -47,7 +47,7 @@ function createFinishLine() {
     };
 }
 
-// Reset the game (called at the start or after a collision)
+// Reset game (or full restart after a collision)
 function resetGame() {
     gameState = "countdown";
     wave = 1;
@@ -64,7 +64,8 @@ function checkCollision() {
         let dx = player.x - opponents[i].x;
         let dy = player.y - opponents[i].y;
         let distance = Math.sqrt(dx * dx + dy * dy);
-        if (distance < player.radius + opponents[i].radius) {
+        if (distance < player.radius + opponents[i].radius * 2) {
+            // Using opponents[i].radius * 2 since they are drawn twice as large.
             return true;
         }
     }
@@ -72,17 +73,17 @@ function checkCollision() {
 }
 
 // Draw an upward-pointing triangle centered at (x, y)
-// The triangle’s vertices are computed so that its centroid is (x,y)
+// The triangle’s size (half-height) is provided in "size"
 function drawTriangle(x, y, size) {
     ctx.beginPath();
-    ctx.moveTo(x, y - size);       // top vertex
-    ctx.lineTo(x - size, y + size);  // bottom left vertex
-    ctx.lineTo(x + size, y + size);  // bottom right vertex
+    ctx.moveTo(x, y - size);       // Top vertex
+    ctx.lineTo(x - size, y + size);  // Bottom left vertex
+    ctx.lineTo(x + size, y + size);  // Bottom right vertex
     ctx.closePath();
     ctx.fill();
 }
 
-// Update the game objects based on the elapsed time
+// Update game objects based on elapsed time
 function update(deltaTime) {
     if (gameState === "countdown") {
         countdownTime -= deltaTime / 1000;
@@ -94,7 +95,7 @@ function update(deltaTime) {
         }
     } else if (gameState === "playing") {
         // Update the football’s position:
-        // Move horizontally according to the user's input and vertically downward automatically.
+        // Move horizontally based on user input and vertically downward automatically.
         player.x += playerDirection * player.speed;
         player.y += player.speed;
         // Keep the player within horizontal bounds.
@@ -103,16 +104,16 @@ function update(deltaTime) {
         // Update opponents: they move upward and shift erratically horizontally.
         for (let i = 0; i < opponents.length; i++) {
             opponents[i].y -= opponents[i].speed; // Move upward.
-            opponents[i].x += (Math.random() - 0.5) * 4; // Erratic horizontal movement.
+            opponents[i].x += (Math.random() - 0.5) * 4; // More erratic horizontal movement.
         }
         
         // Check if the football has reached the finish line (bottom of the screen).
         if (player.y > finishLine.y) {
-            // Wave completed: shift finish line upward, increase wave count, and reset player & opponents.
+            // Wave completed: increment wave, then reset finish line and objects.
             wave++;
-            finishLine.y -= 50;  // Simulate the screen shifting upward.
-            createPlayer();      // Reset the football to the top.
-            createOpponents();   // Generate a new (larger) set of opponents.
+            createFinishLine();    // Always position the finish line at canvas.height - 30.
+            createPlayer();        // Reset the football to the top.
+            createOpponents();     // Generate a new (increased) set of opponents.
             gameState = "countdown";
             countdownTime = 3;
             playerDirection = 0;
@@ -134,10 +135,11 @@ function draw() {
         ctx.font = "48px Arial";
         ctx.fillText(`Starting in ${Math.ceil(countdownTime)}`, canvas.width / 2 - 150, canvas.height / 2);
     } else if (gameState === "playing") {
-        // Draw the football as an oval (ellipse) to simulate a football shape.
-        ctx.fillStyle = "white";
+        // Draw the football as an oval (ellipse) with a hazel color.
+        ctx.fillStyle = "#8E7618";
         ctx.beginPath();
-        // The football's horizontal radius is player.radius, and vertical radius is 1.5 times that.
+        // The football's horizontal radius is player.radius,
+        // and vertical radius is 1.5 times that.
         ctx.ellipse(player.x, player.y, player.radius, player.radius * 1.5, 0, 0, Math.PI * 2);
         ctx.fill();
         
@@ -145,10 +147,11 @@ function draw() {
         ctx.fillStyle = "white";
         ctx.fillRect(0, finishLine.y, finishLine.width, finishLine.height);
         
-        // Draw each opponent as an upward-pointing triangle.
+        // Draw each opponent as an upward-pointing triangle (twice the base size).
         ctx.fillStyle = "white";
         for (let i = 0; i < opponents.length; i++) {
-            drawTriangle(opponents[i].x, opponents[i].y, opponents[i].radius);
+            // Multiply the opponent radius by 2 to make the triangles twice as big.
+            drawTriangle(opponents[i].x, opponents[i].y, opponents[i].radius * 2);
         }
         
         // Optionally, draw a vertical axis line through the football.
@@ -158,9 +161,16 @@ function draw() {
         ctx.lineTo(player.x, canvas.height);
         ctx.stroke();
     }
+    
+    // Draw the wave counter in the top right corner.
+    ctx.fillStyle = "white";
+    ctx.font = "24px Arial";
+    ctx.textAlign = "right";
+    ctx.fillText(`Wave: ${wave}`, canvas.width - 20, 40);
+    ctx.textAlign = "start";
 }
 
-// Listen for clicks (desktop) to set the horizontal movement direction.
+// Handle mouse clicks (desktop) for player movement.
 canvas.addEventListener("click", (e) => {
     const clickX = e.clientX;
     const playerCenterX = player.x;
@@ -172,9 +182,9 @@ canvas.addEventListener("click", (e) => {
     }
 });
 
-// Listen for touches (mobile) to set the horizontal movement direction.
+// Handle screen taps (mobile) for player movement.
 canvas.addEventListener("touchstart", (e) => {
-    e.preventDefault(); // Prevent default behaviors like scrolling.
+    e.preventDefault(); // Prevent default touch behavior (scrolling, zooming, etc.)
     
     const touchX = e.touches[0].clientX;
     const playerCenterX = player.x;
