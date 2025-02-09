@@ -30,7 +30,7 @@ function createPlayer() {
         x: canvas.width / 2,
         y: 50,        // start near the top
         radius: 15,   // base size (used for collision and drawing)
-        speed: 2      // speed for both horizontal and vertical movement
+        speed: 3      // speed for both horizontal and vertical movement
     };
 }
 
