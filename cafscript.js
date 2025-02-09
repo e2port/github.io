@@ -145,7 +145,7 @@ function draw() {
     }
 }
 
-// Handle mouse click for player movement
+// Handle mouse click for player movement (for desktop)
 canvas.addEventListener("click", (e) => {
     const clickX = e.clientX;
     const playerCenterX = player.x;
@@ -156,6 +156,20 @@ canvas.addEventListener("click", (e) => {
         playerDirection = 1; // Move right
     }
 });
+
+// Handle screen tap for player movement (for mobile)
+canvas.addEventListener("touchstart", (e) => {
+    e.preventDefault(); // Prevent default touch behavior (scrolling, zooming, etc.)
+
+    const touchX = e.touches[0].clientX;
+    const playerCenterX = player.x;
+
+    if (touchX < playerCenterX) {
+        playerDirection = -1; // Move left
+    } else if (touchX > playerCenterX) {
+        playerDirection = 1; // Move right
+    }
+}, false);
 
 // Game loop function
 function gameLoop(timestamp) {
