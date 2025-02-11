@@ -59,6 +59,7 @@
       text-align: center;
       padding-bottom: 20px;
       border-bottom: 2px solid #d9d9d9;
+      margin-bottom: 20px;
     }
     header h1 {
       font-size: 2.5rem;
@@ -158,6 +159,57 @@
       font-size: 0.9rem;
       text-align: center;
     }
+    /* Placeholder styling for upcoming videos */
+    .placeholder {
+      width: 300px;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #ddd;
+      color: #666;
+      font-size: 1.2rem;
+    }
+    /* Modal styling for video popup */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed;
+      z-index: 1000; /* on top */
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.8);
+    }
+    .modal-content {
+      background-color: #fefefe;
+      margin: 10% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 800px;
+      position: relative;
+    }
+    .modal-content iframe {
+      width: 100%;
+      height: 450px;
+    }
+    .close {
+      color: #aaa;
+      position: absolute;
+      top: 10px;
+      right: 25px;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
     /* Responsive adjustments */
     @media (max-width: 600px) {
       header h1 {
@@ -196,12 +248,12 @@
       <a href="apps.html">Apps</a>
       <a href="#contact">Contact</a>
     </nav>
-    <!-- Gallery Header -->
+    <!-- Donut Gallery Header -->
     <header>
       <h1>Gallery</h1>
       <p>Click on any thumbnail to view the full image in a new tab.</p>
     </header>
-    <!-- Gallery Grid -->
+    <!-- Donut Gallery Grid -->
     <div class="gallery-grid">
       <!-- Example thumbnail linking to a full image -->
       <a href="images/don2.png" target="_blank">
@@ -218,8 +270,37 @@
          <img src="images/donh.png" alt="Donut Hover">
          <div class="caption">Donut Hover</div>
       </a>
-      <!-- Add more gallery items following the same structure -->
+      <!-- Add more gallery items following the same structure if needed -->
     </div>
+    
+    <!-- Video Gallery Header -->
+    <header>
+      <h1>Video Gallery</h1>
+      <p>Click on any video thumbnail to watch.</p>
+    </header>
+    <!-- Video Gallery Grid -->
+    <div class="gallery-grid" id="videoGallery">
+      <!-- Video Entry: Opens the video popup modal -->
+      <a href="#" class="video-item" id="videoThumbnail">
+         <img src="https://img.youtube.com/vi/6ehvewE15RQ/hqdefault.jpg" alt="YouTube Video Thumbnail">
+         <div class="caption">Watch My Video</div>
+      </a>
+      <!-- Placeholder Entry 1 -->
+      <a href="#" class="video-item">
+         <div class="placeholder">
+            <p>Coming Soon</p>
+         </div>
+         <div class="caption">Coming Soon</div>
+      </a>
+      <!-- Placeholder Entry 2 -->
+      <a href="#" class="video-item">
+         <div class="placeholder">
+            <p>Coming Soon</p>
+         </div>
+         <div class="caption">Coming Soon</div>
+      </a>
+    </div>
+    
     <!-- Contact Section -->
     <section id="contact" class="section">
       <h2>Contact</h2>
@@ -234,6 +315,14 @@
       &copy; 2025 E2 Port. All rights reserved. | Contact: 
       <a href="mailto:e2port18@gmail.com">e2port18@gmail.com</a>
     </footer>
+  </div>
+  
+  <!-- Video Popup Modal -->
+  <div id="videoModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <iframe id="videoFrame" src="https://www.youtube.com/embed/6ehvewE15RQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
   </div>
   
   <!-- Matrix Animation Script -->
@@ -297,6 +386,37 @@
       drops = [];
       for (var i = 0; i < columns; i++) {
         drops[i] = 1;
+      }
+    });
+  </script>
+  
+  <!-- Video Modal Script -->
+  <script>
+    // Get modal elements
+    var videoModal = document.getElementById("videoModal");
+    var videoThumbnail = document.getElementById("videoThumbnail");
+    var modalClose = videoModal.querySelector(".close");
+    
+    // Open modal when video thumbnail is clicked
+    videoThumbnail.addEventListener("click", function(e) {
+      e.preventDefault();
+      videoModal.style.display = "block";
+    });
+    
+    // Close modal when 'x' is clicked
+    modalClose.addEventListener("click", function() {
+      videoModal.style.display = "none";
+      // Stop the video by resetting the src
+      var videoFrame = document.getElementById("videoFrame");
+      videoFrame.src = videoFrame.src;
+    });
+    
+    // Close modal when clicking outside the modal content
+    window.addEventListener("click", function(event) {
+      if (event.target == videoModal) {
+        videoModal.style.display = "none";
+        var videoFrame = document.getElementById("videoFrame");
+        videoFrame.src = videoFrame.src;
       }
     });
   </script>
