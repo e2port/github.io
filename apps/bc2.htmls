@@ -45,6 +45,6 @@
     <button onclick="addBlock()">Add Block</button>
     <div id="blockchain" class="blockchain-container"></div>
 
-    <script src="scripts/bc2script.js"></script>
+    <script src="../scripts/bc2script.js"></script>
 </body>
 </html>
