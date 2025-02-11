@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Apps - E2 Port Digital Portfolio</title>
-  <link rel="icon" href="BHi.png" type="image/png" />
+  <link rel="icon" href="images/BHi.png" type="image/png" />
   <style>
     /* Reset default margins/padding */
     body, h1, h2, p, ul, li, a, img, div {
@@ -75,7 +75,6 @@
       display: block;
       margin: 10px auto;
     }
-
     /* Hebrew text animation effects */
     .hebrew-text {
       font-size: 1.8rem;
@@ -213,13 +212,24 @@
         margin-bottom: 10px;
       }
       @media (max-width: 600px) {
-      .portfolio-image {
-        width: 80%; /* Adjust size for better fit */
-          }
+        .portfolio-image {
+          width: 80%; /* Adjust size for better fit */
         }
-
       }
-
+    }
+    /* --- Pixel Art Styles --- */
+    .pixel-art {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      grid-template-rows: repeat(8, 1fr);
+      gap: 1px;
+      width: 100%;
+      height: 100%;
+    }
+    .pixel-art div {
+      width: 100%;
+      height: 100%;
+    }
   </style>
 </head>
 <body>
@@ -252,6 +262,347 @@
     
     <!-- Apps Grid -->
     <div class="apps-grid">
+      <!-- NEW: LWing App Row with Pixel Art -->
+      <div class="app-row">
+        <div class="app-thumbnail" id="lwing-preview">
+          <div class="pixel-art">
+            <!-- LWing Pattern (8x8) using lightblue -->
+            <!-- Row 1 -->
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <!-- Row 2 -->
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <!-- Row 3 -->
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <!-- Row 4 -->
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: transparent;"></div>
+            <!-- Row 5 -->
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <!-- Row 6 -->
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <!-- Row 7 -->
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <!-- Row 8 -->
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: lightblue;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+          </div>
+        </div>
+        <div class="app-description">
+          <h2>LWing</h2>
+          <p>A cool interactive app with a wing-inspired design. Click to open LWing.</p>
+        </div>
+      </div>
+      
+      <!-- NEW: LWing2 App Row with Pixel Art (Flipped design) -->
+      <div class="app-row">
+        <div class="app-thumbnail" id="lwing2-preview">
+          <div class="pixel-art">
+            <!-- LWing2 Pattern (8x8) using deepskyblue -->
+            <!-- Row 1 -->
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <!-- Row 2 -->
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <div style="background-color: transparent;"></div>
+            <!-- Row 3 -->
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <!-- Row 4 -->
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <!-- Row 5 -->
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <!-- Row 6 -->
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <div style="background-color: transparent;"></div>
+            <!-- Row 7 -->
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <!-- Row 8 -->
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: deepskyblue;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+          </div>
+        </div>
+        <div class="app-description">
+          <h2>LWing2</h2>
+          <p>A variant of LWing with a flipped design. Click to open LWing2.</p>
+        </div>
+      </div>
+      
+      <!-- NEW: CoolAF App Row with Pixel Art (Lightning shape) -->
+      <div class="app-row">
+        <div class="app-thumbnail" id="coolaf-preview">
+          <div class="pixel-art">
+            <!-- CoolAF Pattern (8x8) using lime -->
+            <!-- Row 1 -->
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: lime;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <!-- Row 2 -->
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: lime;"></div>
+            <div style="background-color: lime;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <!-- Row 3 -->
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: lime;"></div>
+            <div style="background-color: lime;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <!-- Row 4 -->
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: lime;"></div>
+            <div style="background-color: lime;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <!-- Row 5 -->
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: lime;"></div>
+            <div style="background-color: lime;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <!-- Row 6 -->
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: lime;"></div>
+            <div style="background-color: lime;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <!-- Row 7 -->
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: lime;"></div>
+            <div style="background-color: lime;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <!-- Row 8 -->
+            <div style="background-color: lime;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+          </div>
+        </div>
+        <div class="app-description">
+          <h2>CoolAF</h2>
+          <p>A striking app featuring a lightning-inspired pixel art. Click to open CoolAF.</p>
+        </div>
+      </div>
+      
+      <!-- NEW: CoolAF2 App Row with Pixel Art (Heart shape) -->
+      <div class="app-row">
+        <div class="app-thumbnail" id="coolaf2-preview">
+          <div class="pixel-art">
+            <!-- CoolAF2 Pattern (8x8) using orange -->
+            <!-- Row 1 -->
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: orange;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: orange;"></div>
+            <div style="background-color: transparent;"></div>
+            <!-- Row 2 -->
+            <div style="background-color: orange;"></div>
+            <div style="background-color: orange;"></div>
+            <div style="background-color: orange;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: orange;"></div>
+            <div style="background-color: orange;"></div>
+            <div style="background-color: orange;"></div>
+            <!-- Row 3 -->
+            <div style="background-color: orange;"></div>
+            <div style="background-color: orange;"></div>
+            <div style="background-color: orange;"></div>
+            <div style="background-color: orange;"></div>
+            <div style="background-color: orange;"></div>
+            <div style="background-color: orange;"></div>
+            <div style="background-color: orange;"></div>
+            <div style="background-color: orange;"></div>
+            <!-- Row 4 -->
+            <div style="background-color: orange;"></div>
+            <div style="background-color: orange;"></div>
+            <div style="background-color: orange;"></div>
+            <div style="background-color: orange;"></div>
+            <div style="background-color: orange;"></div>
+            <div style="background-color: orange;"></div>
+            <div style="background-color: orange;"></div>
+            <div style="background-color: orange;"></div>
+            <!-- Row 5 -->
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: orange;"></div>
+            <div style="background-color: orange;"></div>
+            <div style="background-color: orange;"></div>
+            <div style="background-color: orange;"></div>
+            <div style="background-color: orange;"></div>
+            <div style="background-color: orange;"></div>
+            <div style="background-color: transparent;"></div>
+            <!-- Row 6 -->
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: orange;"></div>
+            <div style="background-color: orange;"></div>
+            <div style="background-color: orange;"></div>
+            <div style="background-color: orange;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <!-- Row 7 -->
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: orange;"></div>
+            <div style="background-color: orange;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <!-- Row 8 -->
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+            <div style="background-color: transparent;"></div>
+          </div>
+        </div>
+        <div class="app-description">
+          <h2>CoolAF2</h2>
+          <p>A heart-inspired design in pixel art form. Click to open CoolAF2.</p>
+        </div>
+      </div>
+      
+      <!-- Existing App Rows -->
       <!-- Blue Hebrew Matrix Rain App Preview Row -->
       <div class="app-row">
         <div class="app-thumbnail" id="matrix-preview">
@@ -304,7 +655,7 @@
         </div>    
       </div>
 
-        <!-- Matrix Hebrew Grass -->
+      <!-- Matrix Hebrew Grass -->
       <div class="app-row">
         <div class="app-thumbnail" id="matrixgrass-preview">
           <p>Click to Open<br>Matrix Hebrew Grass</p>
@@ -338,6 +689,20 @@
   
   <!-- JavaScript for App Preview Click Handlers -->
   <script>
+    // New handlers for the pixel art apps
+    document.getElementById('lwing-preview').addEventListener('click', function() {
+      window.open('apps/lwing.html', '_blank');
+    });
+    document.getElementById('lwing2-preview').addEventListener('click', function() {
+      window.open('apps/lwing2.html', '_blank');
+    });
+    document.getElementById('coolaf-preview').addEventListener('click', function() {
+      window.open('apps/coolaf.html', '_blank');
+    });
+    document.getElementById('coolaf2-preview').addEventListener('click', function() {
+      window.open('apps/coolaf2.html', '_blank');
+    });
+    // Existing click handlers
     document.getElementById('matrix-preview').addEventListener('click', function() {
       window.open('matrix.html', '_blank');
     });
@@ -356,7 +721,6 @@
   </script>
   
   <!-- JavaScript for Neon Gold Hebrew Letters Flying Right Background Animation -->
-
   <script>
     // Get the canvas and its 2D drawing context
     const canvas = document.getElementById('winde-bg');
