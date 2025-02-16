@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Badass DNA Matrix Animation</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      overflow: hidden;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <script>
+    // Get canvas and context
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    let time = 0;
+
+    // --- Gradient Background (optional pulsating effect) ---
+    function drawBackground() {
+      // Create a radial gradient that pulses over time
+      const centerX = width / 2;
+      const centerY = height / 2;
+      const maxRadius = Math.sqrt(width * width + height * height) / 2;
+      const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, maxRadius);
+      const pulse = 50 + 50 * Math.sin(time * 0.3);
+      gradient.addColorStop(0, `rgb(${pulse}, 0, ${pulse})`);
+      gradient.addColorStop(1, "black");
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, width, height);
+    }
+    // Uncomment the following line inside animate() to see the background.
+    // (Currently the helix trails on a transparent black fill give plenty of style.)
+
+    // --- DNA Helix Parameters ---
+    const diagAngle = Math.PI / 4; // 45° diagonal
+    // v: central axis direction along the diagonal
+    const v = { x: Math.cos(diagAngle), y: Math.sin(diagAngle) };
+    // u: perpendicular direction to v
+    const u = { x: -Math.sin(diagAngle), y: Math.cos(diagAngle) };
+
+    const amplitude = 40;      // Base amplitude for strand offsets
+    const frequency = 0.08;    // Base twist frequency along the helix
+    const step = 8;            // Spacing between helix segments
+
+    // Length of the helix (covers a bit more than the screen diagonal)
+    let L = Math.sqrt(width * width + height * height) + 200;
+
+    // --- Particle System for Matrix Rain ---
+    const particles = [];
+    class Particle {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        // Random horizontal and vertical speeds
+        this.vx = (Math.random() - 0.5) * 3;
+        this.vy = Math.random() * 3 + 2;
+        this.alpha = 1;
+        this.size = Math.random() * 2 + 1;
+        this.life = 0;
+        this.maxLife = Math.random() * 60 + 60;
+        // Use random Katakana characters for that Matrix feel
+        this.char = String.fromCharCode(0x30A0 + Math.floor(Math.random() * 96));
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.life++;
+        this.alpha = Math.max(0, 1 - this.life / this.maxLife);
+      }
+      draw(ctx) {
+        ctx.fillStyle = "rgba(255,255,0," + this.alpha + ")";
+        ctx.font = this.size + "px monospace";
+        ctx.fillText(this.char, this.x, this.y);
+      }
+    }
+    function spawnParticle(x, y) {
+      particles.push(new Particle(x, y));
+    }
+
+    // --- Main Animation Loop ---
+    function animate() {
+      requestAnimationFrame(animate);
+      time += 0.05;
+      
+      // Clear canvas with a slight transparent fill for trailing effect
+      ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
+      ctx.fillRect(0, 0, width, height);
+      // Optionally, draw the pulsating gradient background (uncomment to enable)
+      // drawBackground();
+
+      // Global oscillation to make the helix wave
+      const globalOffsetX = 15 * Math.sin(time * 0.7);
+      const globalOffsetY = 15 * Math.cos(time * 0.7);
+
+      // Enable neon glow for the helix
+      ctx.shadowColor = "#00FFFF";
+      ctx.shadowBlur = 10;
+
+      // --- Draw Multiple Helix Layers for Depth ---
+      for (let layer = 0; layer < 3; layer++) {
+        // Layer-specific adjustments
+        const layerOffset = layer * 10;
+        const layerAmplitude = amplitude - layer * 5;
+        const layerFrequency = frequency + layer * 0.01;
+        const layerLineWidth = 2 + (3 - layer); // Front layers are thicker
+
+        ctx.lineWidth = layerLineWidth;
+        // Loop over t from -L/2 to L/2 for a centered helix
+        for (let t = -L / 2; t < L / 2; t += step) {
+          // Center point for this segment along the diagonal axis
+          let cx = width / 2 + t * v.x + globalOffsetX;
+          let cy = height / 2 + t * v.y + globalOffsetY;
+
+          // Add a dynamic layer offset for extra swirl
+          cx += layerOffset * Math.cos(time + t * 0.02);
+          cy += layerOffset * Math.sin(time + t * 0.02);
+
+          // Compute phase for the twist, then determine offset magnitude
+          const phase = t * layerFrequency + time;
+          const offsetMag = layerAmplitude * Math.sin(phase);
+          
+          // Calculate positions for the two helix strands
+          const x1 = cx + offsetMag * u.x;
+          const y1 = cy + offsetMag * u.y;
+          const x2 = cx - offsetMag * u.x;
+          const y2 = cy - offsetMag * u.y;
+          
+          // Draw each strand as a small glowing circle (aqua blue)
+          ctx.beginPath();
+          ctx.arc(x1, y1, 3, 0, Math.PI * 2);
+          ctx.fillStyle = "#00FFFF";
+          ctx.fill();
+
+          ctx.beginPath();
+          ctx.arc(x2, y2, 3, 0, Math.PI * 2);
+          ctx.fillStyle = "#00FFFF";
+          ctx.fill();
+
+          // Draw the connecting "rung" between strands with a dynamic red hue
+          ctx.beginPath();
+          ctx.moveTo(x1, y1);
+          ctx.lineTo(x2, y2);
+          const redIntensity = Math.floor(150 + 105 * ((Math.sin(phase) + 1) / 2));
+          ctx.strokeStyle = `rgba(${redIntensity}, 0, 0, 0.8)`;
+          ctx.stroke();
+
+          // Occasionally spawn a Matrix rain particle at the midpoint of the rung
+          if (Math.random() < 0.02) {
+            const midX = (x1 + x2) / 2;
+            const midY = (y1 + y2) / 2;
+            spawnParticle(midX, midY);
+          }
+        }
+      }
+
+      // Disable glow for particles
+      ctx.shadowBlur = 0;
+
+      // --- Update and Draw Matrix Rain Particles ---
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.update();
+        p.draw(ctx);
+        if (p.life >= p.maxLife) {
+          particles.splice(i, 1);
+        }
+      }
+
+      // Extra random Matrix rain particles sprout from the top of the canvas
+      if (Math.random() < 0.1) {
+        spawnParticle(Math.random() * width, 0);
+      }
+    }
+    animate();
+  </script>
+</body>
+</html>
