@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E2 Digital Portfolio</title>
+  <!-- Favicon -->
+  <link rel="icon" href="images/BHi.png" type="image/png" />
+  
+  <!-- Internal CSS with a magnificent grayscale palette and refined professional fonts/spacing -->
+  <style>
+    /* Reset default margins/padding */
+    body, h1, h2, p, ul, li {
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: "Franklin Gothic Medium", Arial, sans-serif;
+      line-height: 1.6;
+      font-size: 16px;
+      color: #444;
+      padding: 20px;
+      position: relative;
+      background: #fff; /* Fallback background */
+    }
+    /* Style the canvas so it fills the window and sits behind content */
+    canvas#hwind-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+    #contact {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    /* Container with fade-in effect */
+    .container {
+      clip-path: polygon(3% 0, 97% 0, 100% 100%, 0 100%);
+      max-width: 900px;
+      margin: 0 auto;
+      background: #f2f2f2;
+      padding: 30px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 0.8s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.98); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    header {
+      text-align: center;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #d9d9d9;
+    }
+    header h1 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+      color: #222;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    }
+    /* Hebrew text animation effects in grayscale gradient */
+    .hebrew-text {
+      font-size: 1.8rem;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 5px;
+      background: linear-gradient(45deg, #bbb, #999, #777, #555, #333);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientAnimation 3s ease infinite, pulseAnimation 1.5s ease-in-out infinite;
+    }
+    @keyframes gradientAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes pulseAnimation {
+      0% {
+        transform: scale(1);
+        text-shadow: 0 0 10px rgba(187, 187, 187, 0.5);
+      }
+      50% {
+        transform: scale(1.1);
+        text-shadow: 0 0 20px rgba(136, 136, 136, 0.7);
+      }
+      100% {
+        transform: scale(1);
+        text-shadow: 0 0 10px rgba(102, 102, 102, 0.5);
+      }
+    }
+    header p {
+      font-size: 1.1rem;
+      color: #666;
+    }
+    /* Navigation with subtle popout and twirl effect */
+    nav {
+      text-align: center;
+      margin: 20px 0;
+    }
+    nav a {
+      text-decoration: none;
+      color: #444;
+      margin: 0 15px;
+      font-size: 1rem;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.3s ease;
+      display: inline-block;
+    }
+    nav a:hover {
+      transform: scale(1.2) rotate(5deg);
+      color: #333;
+    }
+    /* Section Styles with fadeInUp effect */
+    .section {
+      margin: 40px 0;
+      padding: 20px;
+      border: 2px solid #d9d9d9;
+      border-radius: 8px;
+      background: #f2f2f2;
+      position: relative;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+    /* Stagger the animations for multiple sections */
+    .section:nth-of-type(1) { animation-delay: 0.2s; }
+    .section:nth-of-type(2) { animation-delay: 0.4s; }
+    .section:nth-of-type(3) { animation-delay: 0.6s; }
+    .section:nth-of-type(4) { animation-delay: 0.8s; }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .section::before {
+      content: "";
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      right: -8px;
+      bottom: -8px;
+      border: 1px dashed #444;
+      border-radius: 12px;
+      pointer-events: none;
+    }
+    .section h2 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #d9d9d9;
+      padding-bottom: 10px;
+      color: #222;
+    }
+    .section p {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+      color: #444;
+    }
+    .section ul {
+      list-style: disc;
+      padding-left: 20px;
+      margin-bottom: 10px;
+      color: #444;
+    }
+    .section ul li {
+      margin-bottom: 8px;
+    }
+    /* Portfolio Image Styling with hover zoom effect and reduced dimensions */
+    .portfolio-image {
+      max-width: 50%;
+      height: auto;
+      display: block;
+      margin: 20px auto;
+      border: 3px solid #d9d9d9;
+      transition: transform 0.3s ease;
+    }
+    .portfolio-image:hover {
+      transform: scale(1.05);
+    }
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #777;
+      border-top: 1px solid #d9d9d9;
+      padding-top: 20px;
+      margin-top: 20px;
+    }
+    /* Custom Styles for Smaller About and Update Sections */
+    #about {
+      font-size: 0.9rem;
+    }
+    #about h2 {
+      font-size: 1.8rem;
+    }
+    /* New Site Update Section with even smaller font */
+    #update {
+      font-size: 0.8rem;
+      margin: 20px 0;
+      padding: 15px;
+      border: 1px solid #d9d9d9;
+      border-radius: 8px;
+      background: #eaeaea;
+      color: #444;
+    }
+    #update h2 {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+      color: #222;
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    #update p {
+      margin: 0;
+    }
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2rem;
+      }
+      nav a {
+        display: block;
+        margin: 10px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Canvas Background -->
+  <canvas id="hwind-bg"></canvas>
+  
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <!-- Hebrew text with refined grayscale animation effects -->
+      <p dir="rtl" class="hebrew-text">בס"ד</p>
+      <h1>E2 Port - Digital Portfolio</h1>
+      <p>Data Scientist & Versatile Tech Consultant</p>
+    </header>
+    
+    <!-- Navigation -->
+    <nav>
+      <a href="#about">About</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="pdfs.html">PDFs</a>
+      <a href="apps.html">Apps</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    
+    <!-- New Site Update Section -->
+    <section id="update" class="section">
+      <h2>Recent Update</h2>
+      <p>[Feb 11, 2025 : Organizational upgrade of site]</p>
+    </section>
+    
+    <!-- About Me Section -->
+    <section id="about" class="section">
+      <h2>About Me</h2>
+      <p>
+        Machine Learning Engineer (Algorithm creation and tuning) | Versatile Tech Enthusiast | Multimedia Creator / Consultant | Bridging Cultures
+      </p>
+      <p>
+        Hello! I’m a dedicated and adaptable professional with a diverse skill set spanning technology, data science, and multimedia.
+        Originally from the U.S. and now based in the Middle East, I bring a unique blend of technical expertise, analytical thinking, and creative problem-solving to every project.
+        Whether you're looking for data-driven insights, software guidance, or high-quality digital content, I’m here to help.
+      </p>
+    </section>
+    
+    <!-- Digital Profile Sections -->
+    <section id="software-experience" class="section">
+      <h2>Software Experience</h2>
+      <ul>
+        <li>Macromedia</li>
+        <li>Microsoft Suite</li>
+        <li>Google Docs</li>
+        <li>Google Sheets</li>
+        <li>Salesforce</li>
+        <li>Blender 3D</li>
+        <li>JIRA</li>
+        <li>Slack</li>
+        <li>Trello</li>
+        <li>GitHub</li>
+        <li>Tableau</li>
+        <li>SAP</li>
+        <li>Oracle</li>
+        <li>Autodesk AutoCAD</li>
+        <li>Adobe Creative Suite</li>
+        <li>Docker</li>
+        <li>Kubernetes</li>
+        <li>Jenkins</li>
+      </ul>
+    </section>
+    
+    <section id="file-extensions" class="section">
+      <h2>File Extensions Experience</h2>
+      <ul>
+        <li>PNG</li>
+        <li>JPG</li>
+        <li>AVI</li>
+        <li>MP3</li>
+        <li>MP4</li>
+        <li>WEBP</li>
+        <li>PDF</li>
+        <li>CSV</li>
+        <li>DOCX</li>
+        <li>XLSX</li>
+        <li>HTML</li>
+        <li>CSS</li>
+        <li>JS</li>
+        <li>SQL</li>
+        <li>TIFF</li>
+        <li>GIF</li>
+        <li>PSD</li>
+        <li>XML</li>
+      </ul>
+    </section>
+    
+    <section id="skills" class="section">
+      <h2>Skills</h2>
+      <ul>
+        <li>Advanced Statistical Analysis</li>
+        <li>Machine Learning Model Development</li>
+        <li>Python and SQL Programming</li>
+        <li>Data Visualization and Reporting</li>
+        <li>Cloud Infrastructure Management (Azure, AWS, GCP)</li>
+        <li>Project Management and Team Leadership</li>
+        <li>Technical Support and Customer Service</li>
+        <li>Biotechnological Processes (e.g., Microalgae Cultivation)</li>
+        <li>Construction and Material Processing (Metal, PVC)</li>
+        <li>Multilingual Communication (English, French, Hebrew)</li>
+        <li>Software Troubleshooting and Optimization</li>
+        <li>Blockchain Technology Application</li>
+        <li>Creative Problem Solving</li>
+        <li>Writing and Editing Technical Documents</li>
+        <li>Public Speaking and Presentation Skills</li>
+        <li>Agile Methodologies</li>
+        <li>Quality Assurance</li>
+        <li>IT Security</li>
+      </ul>
+    </section>
+    
+    <!-- Tech Expertise Section -->
+    <section id="expertise" class="section">
+      <h2>Tech Expertise</h2>
+      <ul>
+        <li><strong>Data Science / Machine Learning:</strong> Certified Data Scientist with expertise in machine learning algorithms and predictive analytics to drive business decisions.</li>
+        <li><strong>Digital Media / Asset Creation:</strong> Skilled in crafting high-quality video content, designing graphics, animations, 3D models, and employing generative AI applications.</li>
+        <li><strong>Consulting - Cloud Architecture & Cybersecurity:</strong> Experienced in computer hardware, software, and cloud services (with a focus on Microsoft Azure) along with a strong grasp of cybersecurity risks and market trends.</li>
+      </ul>
+    </section>
+    
+    <!-- Additional Services Section -->
+    <section id="services" class="section">
+      <h2>Additional Services</h2>
+      <ul>
+        <li><strong>Programming / Scripting Tasks:</strong> Proficient in Python and SQL, utilizing modern LLM technologies for efficient code development.</li>
+        <li><strong>Written English Support:</strong> Peer-review, proofreading, and tailored content creation to meet professional standards.</li>
+        <li><strong>Spoken English:</strong> Native-level English conversation practice, cultural insights, and technical discussions for non-native speakers.</li>
+      </ul>
+    </section>
+    
+    <!-- Sample Works Section -->
+    <section id="work" class="section">
+      <h2>Sample Works</h2>
+      <p>
+        Below is a sample piece. For more examples, please visit <a href="gallery.html" target="_blank">The Gallery</a>.
+      </p>
+      <img src="images/don2.png" alt="Blender Donut" class="portfolio-image" />
+    </section>
+    
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+      <h2>Contact</h2>
+      <p>
+        Feel free to reach out via email at 
+        <a href="mailto:e2port18@gmail.com">e2port18@gmail.com</a>.<br><br>
+        All the best!
+      </p>
+      <img src="images/footballcat.png" alt="Cat Football" class="portfolio-image" />
+    </section>
+    
+    <footer>
+      &copy; 2025 E2 Port. All rights reserved. | Contact: 
+      <a href="mailto:e2port18@gmail.com">e2port18@gmail.com</a>
+    </footer>
+  </div>
+  
+  <!-- JavaScript for Grayscale Matrix Rain Background Animation with 12px Font -->
+  <script>
+    // Get the canvas and its 2D context
+    const canvas = document.getElementById('hwind-bg');
+    const ctx = canvas.getContext('2d');
+
+    // Set canvas to full window size
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Characters for the Matrix rain effect – using a minimal set (e.g., "01")
+    const characters = "01";
+    const fontSize = 12;
+    const columns = Math.floor(canvas.width / fontSize);
+    const drops = Array(columns).fill(0);
+
+    // Draw function to animate the characters in grayscale
+    function draw() {
+      // Draw a semi-transparent black background for the fade effect
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // Set text style to white with a soft glow
+      ctx.fillStyle = "#FFFFFF";
+      ctx.shadowColor = "#FFFFFF";
+      ctx.shadowBlur = 10;
+      ctx.font = "bold " + fontSize + "px monospace";
+      
+      // Loop over drops
+      for (let i = 0; i < drops.length; i++) {
+        // Pick a random character
+        const text = characters.charAt(Math.floor(Math.random() * characters.length));
+        // Draw the character at its position
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        // Reset drop to top randomly after it has crossed the screen
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        // Increment Y coordinate for drop
+        drops[i]++;
+      }
+      
+      requestAnimationFrame(draw);
+    }
+
+    // Start the animation
+    draw();
+
+    // Adjust canvas size on window resize
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+</html>
