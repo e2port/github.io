@@ -50,21 +50,25 @@
       text-align: center;
       margin-bottom: 20px;
     }
-    /* Impact headings with knockout effect: transparent fill and thin white outline */
+    /* Knockout headings  */
+
     h1, h2, h3, h4, h5, h6 {
-      color: transparent;
-      -webkit-text-stroke: 0.2px white;
-      text-stroke: 0.2px white;
-      font-family: Impact, sans-serif;
-      margin-bottom: 10px;
+      font-family: 'Arial Black', sans-serif;
+      color: rgba(255, 255, 255, 0.2);
+      -webkit-text-stroke: 1px white;
+      text-stroke: 1px white;
+      text-shadow: 0px 0px 3px rgba(255, 255, 255, 0.7);
+      -webkit-font-smoothing: antialiased;
+      margin-bottom: 5px;
     }
+
     /* Increase heading sizes for a bolder look */
     h1 { font-size: 3rem; }
     h2 { font-size: 2.5rem; }
     header p {
-      font-size: 1.1rem;
-      color: #aaa;
-      margin-bottom: 10px;
+      font-size: 1.5rem;
+      color: #000;
+      margin-bottom: 8px;
     }
     /* Navigation */
     nav {
@@ -86,9 +90,9 @@
     .mini-canvas {
       margin: 40px 0;
       padding: 20px;
-      border: 2px solid rgba(255, 255, 255, 0.3);
+      border: 2px solid rgba(255, 255, 255, 0.7);
       border-radius: 8px;
-      background: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.6);
     }
     .mini-canvas p {
       font-size: 1.1rem;
