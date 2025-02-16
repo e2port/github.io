@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Swirling DNA with Matrix Rain</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      overflow: hidden;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <script>
+    // Get the canvas and context
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    let time = 0;
+
+    // DNA helix parameters
+    const diagAngle = Math.PI / 4; // 45° angle
+    // v is the central axis direction
+    const v = { x: Math.cos(diagAngle), y: Math.sin(diagAngle) };
+    // u is the perpendicular direction (for strand offsets)
+    const u = { x: -Math.sin(diagAngle), y: Math.cos(diagAngle) };
+
+    const amplitude = 30;      // How far the strands swing from the center
+    const frequency = 0.05;    // How fast the helix twists along its length
+    const step = 8;            // Spacing between helix segments
+
+    // Determine how long the helix should be (covering the canvas diagonal)
+    let L = Math.sqrt(width * width + height * height) + 100;
+
+    // --- Particle system for yellow "matrix rain" off the helix ---
+    const particles = [];
+
+    class Particle {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        // A little random horizontal drift and downward speed
+        this.vx = (Math.random() - 0.5) * 2;
+        this.vy = Math.random() * 2 + 1;
+        this.alpha = 1;
+        this.size = Math.random() * 2 + 1;
+        this.life = 0;
+        this.maxLife = Math.random() * 50 + 50;
+        // Use a random character (katakana-style) for a Matrix feel
+        this.char = String.fromCharCode(0x30A0 + Math.floor(Math.random() * 96));
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.life++;
+        this.alpha = 1 - this.life / this.maxLife;
+      }
+      draw(ctx) {
+        ctx.fillStyle = "rgba(255, 255, 0, " + this.alpha + ")";
+        ctx.font = this.size + "px monospace";
+        ctx.fillText(this.char, this.x, this.y);
+      }
+    }
+
+    function spawnParticle(x, y) {
+      particles.push(new Particle(x, y));
+    }
+    // --- End Particle system ---
+
+    function animate() {
+      requestAnimationFrame(animate);
+      time += 0.05;
+      
+      // Clear the canvas with a slight transparent black to leave trails
+      ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
+      ctx.fillRect(0, 0, width, height);
+
+      // A little extra oscillation applied to the whole DNA (waving effect)
+      const globalOffsetX = 10 * Math.sin(time * 0.5);
+      const globalOffsetY = 10 * Math.cos(time * 0.5);
+
+      // Draw the DNA helix by stepping along t
+      for (let t = 0; t < L; t += step) {
+        // Compute the center point along the helix axis.
+        let cx = -50 + t * v.x + width / 2 + globalOffsetX;
+        let cy = -50 + t * v.y + height / 2 + globalOffsetY;
+        
+        // The twisting phase (which makes the strands rotate around the center)
+        let phase = t * frequency + time;
+        // offset magnitude modulated by a sine so it swings back and forth
+        let offsetMag = amplitude * Math.sin(phase);
+        
+        // Calculate positions for the two strands
+        let x1 = cx + offsetMag * u.x;
+        let y1 = cy + offsetMag * u.y;
+        let x2 = cx - offsetMag * u.x;
+        let y2 = cy - offsetMag * u.y;
+        
+        // Draw strand points as small aqua blue circles
+        ctx.beginPath();
+        ctx.arc(x1, y1, 3, 0, Math.PI * 2);
+        ctx.fillStyle = "#00FFFF"; // aqua blue
+        ctx.fill();
+        
+        ctx.beginPath();
+        ctx.arc(x2, y2, 3, 0, Math.PI * 2);
+        ctx.fillStyle = "#00FFFF";
+        ctx.fill();
+        
+        // Draw the connecting "rung" (ladder bar) between the strands.
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        // Use a red shade that varies with the helix phase.
+        let redShade = Math.floor(100 + 155 * ((Math.sin(phase) + 1) / 2)); // varies 100-255
+        ctx.strokeStyle = "rgb(" + redShade + ", 0, 0)";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Occasionally spawn a yellow particle from the mid-point of a rung.
+        if (Math.random() < 0.03) {
+          let rx = (x1 + x2) / 2;
+          let ry = (y1 + y2) / 2;
+          spawnParticle(rx, ry);
+        }
+      }
+      
+      // Update and draw the matrix rain particles
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.update();
+        p.draw(ctx);
+        if (p.life > p.maxLife) {
+          particles.splice(i, 1);
+        }
+      }
+    }
+    animate();
+  </script>
+</body>
+</html>
