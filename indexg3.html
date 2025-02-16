@@ -1,23 +1,28 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>E2 Digital Portfolio - Grayscale</title>
-  <link rel="icon" href="images/BHi.png" type="image/png" />
+  <link rel="icon" href="images/ic.webp" type="image/webp" />
   <style>
-    /* Basic Reset & Global Styles */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    /* Reset & Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
     body {
       font-family: "Franklin Gothic Medium", Arial, sans-serif;
       font-size: 16px;
       line-height: 1.6;
-      color: #444;
-      background: #fff;
+      color: #ccc;
+      background: #000; /* Let the matrix background show */
       padding: 20px;
       position: relative;
     }
-    /* Fullscreen canvas background */
+    /* Fullscreen Matrix Rain Background */
     canvas#hwind-bg {
       position: fixed;
       top: 0;
@@ -26,107 +31,124 @@
       height: 100%;
       z-index: -1;
     }
-    /* Small Hebrew text in top right */
+    /* Small Hebrew text at top right */
     .hebrew-modest {
       position: fixed;
       top: 10px;
       right: 10px;
       font-size: 1rem;
-      color: #444;
+      color: #ccc;
     }
-    /* Main container */
+    /* Main container – no background, panels are separate */
     .container {
       max-width: 900px;
       margin: 0 auto;
-      background: #f2f2f2;
-      padding: 30px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      background: transparent;
+      padding: 0;
     }
+    /* Header styles */
     header {
       text-align: center;
-      padding-bottom: 20px;
-      border-bottom: 2px solid #d9d9d9;
+      margin-bottom: 20px;
     }
-    /* Knockout effect for headings: transparent fill with thin black outline */
+    /* Knockout headings  */
+
     h1, h2, h3, h4, h5, h6 {
-      color: transparent;
+      font-family: Georgia, serif;
+      color: rgba(255, 255, 255, 0.2);
       -webkit-text-stroke: 1px black;
       text-stroke: 1px black;
-      font-family: Impact, sans-serif;
-      margin-bottom: 10px;
+      text-shadow: 0px 0px 3px rgba(255, 255, 255, 0.8);
+      -webkit-font-smoothing: antialiased;
+      margin-bottom: 5px;
     }
+
+    /* Increase heading sizes for a bolder look */
+    h1 { font-size: 2.5rem; }
+    h2 { font-size: 2rem; }
     header p {
-      font-size: 1.1rem;
-      color: #666;
-      margin-bottom: 10px;
+      font-size: 1.2rem;
+      color: #000;
+      margin-bottom: 8px;
     }
+    /* Navigation */
     nav {
       text-align: center;
       margin: 20px 0;
     }
     nav a {
       text-decoration: none;
-      color: #444;
+      color: #000;
       margin: 0 15px;
       font-size: 1rem;
       transition: transform 0.3s ease, color 0.3s ease;
     }
     nav a:hover {
       transform: scale(1.2) rotate(5deg);
-      color: #333;
+      color: #fff;
     }
-    .section {
+    /* Mini-canvas panels – each section now has a semitransparent white background */
+    .mini-canvas {
       margin: 40px 0;
       padding: 20px;
-      border: 2px solid #d9d9d9;
+      border: 3px solid rgba(255, 255, 255, 0.9);
       border-radius: 8px;
-      background: #f2f2f2;
+      background: rgba(255, 255, 255, 0.7);
     }
-    .section p {
+    .mini-canvas p {
       font-size: 1.1rem;
       margin-bottom: 10px;
-      color: #444;
+      color: #000; /* text color adjusted for readability on white background */
     }
-    /* Two-column lists for larger screens */
-    .section ul {
+    .mini-canvas ul {
       list-style: disc;
       padding-left: 20px;
       margin-bottom: 10px;
       column-count: 2;
       column-gap: 20px;
-      color: #444;
+      color: #000;
     }
-    .section ul li { margin-bottom: 8px; }
-    /* Mobile: single column list */
+    .mini-canvas ul li {
+      margin-bottom: 8px;
+    }
+    /* On mobile, revert lists to a single column */
     @media (max-width: 600px) {
-      .section ul { column-count: 1; }
-      nav a { display: block; margin: 10px 0; }
+      .mini-canvas ul {
+        column-count: 1;
+      }
+      nav a {
+        display: block;
+        margin: 10px 0;
+      }
     }
     .portfolio-image {
       max-width: 50%;
       height: auto;
       display: block;
       margin: 20px auto;
-      border: 3px solid #d9d9d9;
+      border: 1px solid rgba(255, 255, 255, 0.3);
       transition: transform 0.3s ease;
     }
-    .portfolio-image:hover { transform: scale(1.05); }
+    .portfolio-image:hover {
+      transform: scale(1.05);
+    }
     footer {
       text-align: center;
       font-size: 0.9rem;
-      color: #777;
-      border-top: 1px solid #d9d9d9;
+      color: #ccc;
+      border-top: 1px solid rgba(255, 255, 255, 0.3);
       padding-top: 20px;
       margin-top: 20px;
     }
   </style>
 </head>
 <body>
-  <!-- Modest Hebrew text at top right -->
+  <!-- Small Hebrew Text at Top Right -->
   <div class="hebrew-modest">בס"ד</div>
-  <!-- Canvas Background -->
+  <!-- Matrix Rain Background Canvas -->
   <canvas id="hwind-bg"></canvas>
   <div class="container">
+    <!-- Header and Navigation (outside the mini-canvas panels) -->
     <header>
       <h1>E2 Port - Digital Portfolio</h1>
       <p>Data Scientist & Versatile Tech Consultant</p>
@@ -138,21 +160,22 @@
       <a href="apps.html">Apps</a>
       <a href="#contact">Contact</a>
     </nav>
-    <section id="update" class="section">
+    <!-- Content Panels -->
+    <div id="update" class="mini-canvas">
       <h2>Recent Update</h2>
-      <p>[Feb 11, 2025 : Organizational upgrade of site]</p>
-    </section>
-    <section id="about" class="section">
+      <p>[Feb 11, 2025: Organizational upgrade of site]</p>
+    </div>
+    <div id="about" class="mini-canvas">
       <h2>About Me</h2>
       <p>Machine Learning Engineer (Algorithm creation and tuning) | Versatile Tech Enthusiast | Multimedia Creator / Consultant | Bridging Cultures</p>
       <p>
         Hello! I’m a dedicated and adaptable professional with a diverse skill set spanning technology, data science, and multimedia.
         Originally from the U.S. and now based in the Middle East, I bring a unique blend of technical expertise, analytical thinking,
-        and creative problem-solving to every project. Whether you're looking for data-driven insights, software guidance, or
-        high-quality digital content, I’m here to help.
+        and creative problem-solving to every project. Whether you're looking for data-driven insights, software guidance, or high-quality digital content,
+        I’m here to help.
       </p>
-    </section>
-    <section id="software-experience" class="section">
+    </div>
+    <div id="software-experience" class="mini-canvas">
       <h2>Software Experience</h2>
       <ul>
         <li>Macromedia</li>
@@ -174,8 +197,8 @@
         <li>Kubernetes</li>
         <li>Jenkins</li>
       </ul>
-    </section>
-    <section id="file-extensions" class="section">
+    </div>
+    <div id="file-extensions" class="mini-canvas">
       <h2>File Extensions Experience</h2>
       <ul>
         <li>PNG</li>
@@ -197,8 +220,8 @@
         <li>PSD</li>
         <li>XML</li>
       </ul>
-    </section>
-    <section id="skills" class="section">
+    </div>
+    <div id="skills" class="mini-canvas">
       <h2>Skills</h2>
       <ul>
         <li>Advanced Statistical Analysis</li>
@@ -220,49 +243,49 @@
         <li>Quality Assurance</li>
         <li>IT Security</li>
       </ul>
-    </section>
-    <section id="expertise" class="section">
+    </div>
+    <div id="expertise" class="mini-canvas">
       <h2>Tech Expertise</h2>
       <ul>
         <li><strong>Data Science / Machine Learning:</strong> Certified Data Scientist with expertise in machine learning algorithms and predictive analytics to drive business decisions.</li>
         <li><strong>Digital Media / Asset Creation:</strong> Skilled in crafting high-quality video content, designing graphics, animations, 3D models, and employing generative AI applications.</li>
         <li><strong>Consulting - Cloud Architecture & Cybersecurity:</strong> Experienced in computer hardware, software, and cloud services (with a focus on Microsoft Azure) along with a strong grasp of cybersecurity risks and market trends.</li>
       </ul>
-    </section>
-    <section id="services" class="section">
+    </div>
+    <div id="services" class="mini-canvas">
       <h2>Additional Services</h2>
       <ul>
         <li><strong>Programming / Scripting Tasks:</strong> Proficient in Python and SQL, utilizing modern LLM technologies for efficient code development.</li>
         <li><strong>Written English Support:</strong> Peer-review, proofreading, and tailored content creation to meet professional standards.</li>
         <li><strong>Spoken English:</strong> Native-level English conversation practice, cultural insights, and technical discussions for non-native speakers.</li>
       </ul>
-    </section>
-    <section id="work" class="section">
+    </div>
+    <div id="work" class="mini-canvas">
       <h2>Sample Works</h2>
       <p>
         Below is a sample piece. For more examples, please visit <a href="gallery.html" target="_blank">The Gallery</a>.
       </p>
-      <img src="images/don2.png" alt="Blender Donut" class="portfolio-image" />
-    </section>
-    <section id="contact" class="section">
+      <img src="images/hdt.webp" alt="Blender Donut" class="portfolio-image">
+    </div>
+    <div id="contact" class="mini-canvas">
       <h2>Contact</h2>
       <p>
         Feel free to reach out via email at <a href="mailto:e2port18@gmail.com">e2port18@gmail.com</a>.<br /><br />
         All the best!
       </p>
-      <img src="images/footballcat.png" alt="Cat Football" class="portfolio-image" />
-    </section>
+      <img src="images/tfbc2.webp" alt="Cat Football" class="portfolio-image">
+    </div>
     <footer>
       &copy; 2025 E2 Port. All rights reserved. | Contact: <a href="mailto:e2port18@gmail.com">e2port18@gmail.com</a>
     </footer>
   </div>
-  <!-- Grayscale Matrix Rain Background Animation -->
+  <!-- Grayscale Matrix Rain Background Animation Script -->
   <script>
     const canvas = document.getElementById('hwind-bg');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    const characters = "01";
+    const characters = "0123";
     const fontSize = 12;
     const columns = Math.floor(canvas.width / fontSize);
     const drops = Array(columns).fill(0);
